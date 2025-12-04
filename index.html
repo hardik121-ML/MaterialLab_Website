@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Lab - We Create Category Leaders</title>
+
+    <!-- Google Fonts: Merriweather (Serif) and Inter (Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <!-- Grainy Glow Cursor -->
+    <div id="grainy-cursor" class="grainy-cursor">
+        <div class="cursor-glow"></div>
+        <div class="cursor-grain"></div>
+    </div>
+
+    <!-- SVG Ellipse Mask Transition Overlay (CRITICAL) -->
+    <svg id="transition-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; pointer-events: none;">
+        <defs>
+            <mask id="ellipse-mask">
+                <rect width="100%" height="100%" fill="white"/>
+                <ellipse id="mask-ellipse" cx="960" cy="2000" rx="0" ry="0" fill="black"/>
+            </mask>
+        </defs>
+        <rect width="100%" height="100%" fill="white" mask="url(#ellipse-mask)"/>
+    </svg>
+
+    <!-- Header Navigation -->
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <!-- Logo -->
+                <div class="nav-logo">
+                    <a href="#home">Rise at Seven</a>
+                </div>
+
+                <!-- Navigation Links -->
+                <ul class="nav-links">
+                    <li class="nav-item has-dropdown">
+                        <a href="#services" class="nav-link" data-section="services">
+                            Services
+                            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                        <div class="nav-hover-bg"></div>
+
+                        <!-- Mega Dropdown -->
+                        <div class="mega-dropdown">
+                            <div class="mega-dropdown-content">
+                                <div class="services-grid">
+                                    <div class="service-column">
+                                        <h4>Core Services</h4>
+                                        <ul>
+                                            <li><a href="#seo">SEO Strategy</a></li>
+                                            <li><a href="#content">Content Marketing</a></li>
+                                            <li><a href="#digital-pr">Digital PR</a></li>
+                                            <li><a href="#social">Social Media</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="service-column">
+                                        <h4>Specialized</h4>
+                                        <ul>
+                                            <li><a href="#creative">Creative Studio</a></li>
+                                            <li><a href="#data">Data & Insights</a></li>
+                                            <li><a href="#technical">Technical SEO</a></li>
+                                            <li><a href="#paid">Paid Media</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="services-featured">
+                                    <div class="featured-image">
+                                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop" alt="Services">
+                                    </div>
+                                    <a href="#all-services" class="btn-view-all">View All Services</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#about" class="nav-link" data-section="about">About</a>
+                        <div class="nav-hover-bg"></div>
+                    </li>
+                </ul>
+
+                <!-- CTA Button -->
+                <div class="nav-cta">
+                    <a href="#contact" class="btn-cta">Get In Touch</a>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <!-- Blurred Background -->
+        <div class="hero-background">
+            <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1920" alt="Hero Background" class="hero-bg-image">
+        </div>
+
+        <!-- Hero Content -->
+        <div class="hero-content">
+            <div class="hero-container">
+                <!-- Awards Badge -->
+                <div class="awards-badge">
+                    <span>#1 MOST RECOMMENDED CONTENT MARKETING AGENCY</span>
+                </div>
+
+                <!-- Main Heading -->
+                <h1 class="hero-heading">
+                    <span class="heading-line">We Create</span>
+                    <span class="heading-line">
+                        Category
+                        <span class="inline-image-wrapper">
+                            <div class="inset-image"></div>
+                        </span>
+                        Leaders
+                    </span>
+                </h1>
+
+                <!-- Subheading -->
+                <p class="hero-subheading">on every searchable platform</p>
+
+                <!-- Brand Logos -->
+                <div class="brand-logos">
+                    <div class="logo-item">
+                        <svg width="90" height="30" viewBox="0 0 90 30" fill="none">
+                            <text x="0" y="22" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Google</text>
+                        </svg>
+                    </div>
+                    <div class="logo-item">
+                        <svg width="90" height="30" viewBox="0 0 90 30" fill="none">
+                            <text x="0" y="22" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">ChatGPT</text>
+                        </svg>
+                    </div>
+                    <div class="logo-item">
+                        <svg width="90" height="30" viewBox="0 0 90 30" fill="none">
+                            <text x="0" y="22" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">TikTok</text>
+                        </svg>
+                    </div>
+                    <div class="logo-item">
+                        <svg width="90" height="30" viewBox="0 0 90 30" fill="none">
+                            <text x="0" y="22" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">YouTube</text>
+                        </svg>
+                    </div>
+                    <div class="logo-item">
+                        <svg width="90" height="30" viewBox="0 0 90 30" fill="none">
+                            <text x="0" y="22" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Pinterest</text>
+                        </svg>
+                    </div>
+                    <div class="logo-item">
+                        <svg width="90" height="30" viewBox="0 0 90 30" fill="none">
+                            <text x="0" y="22" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Giphy</text>
+                        </svg>
+                    </div>
+                    <div class="logo-item">
+                        <svg width="90" height="30" viewBox="0 0 90 30" fill="none">
+                            <text x="0" y="22" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Reddit</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Microcopy -->
+            <div class="hero-footer">
+                <span class="footer-left">Scroll to explore</span>
+                <span class="footer-right">Based in London & New York</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- About + Client Showcase Section -->
+    <section class="about-client-section">
+        <!-- Client Logo Scroller (full width, above two columns) -->
+        <div class="logo-scroller-wrapper">
+            <div class="fade-left"></div>
+            <div class="fade-right"></div>
+            <div class="logo-scroller">
+                <div class="logo-track">
+                    <!-- First set of logos -->
+                    <div class="client-logo">
+                        <svg width="120" height="50" viewBox="0 0 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="10" y="30" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="20" font-weight="bold">PlayStation</text>
+                        </svg>
+                    </div>
+                    <div class="client-logo">
+                        <svg width="100" height="50" viewBox="0 0 100 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="5" y="30" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="20" font-weight="bold">Red Bull</text>
+                        </svg>
+                    </div>
+                    <div class="client-logo">
+                        <svg width="80" height="50" viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="15" y="30" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="22" font-weight="bold">AXA</text>
+                        </svg>
+                    </div>
+                    <div class="client-logo">
+                        <svg width="120" height="50" viewBox="0 0 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="5" y="30" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Capital One</text>
+                        </svg>
+                    </div>
+                    <div class="client-logo">
+                        <svg width="100" height="50" viewBox="0 0 100 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="10" y="30" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="20" font-weight="bold">Emirates</text>
+                        </svg>
+                    </div>
+                    <div class="client-logo">
+                        <svg width="80" height="50" viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="10" y="30" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="20" font-weight="bold">Sony</text>
+                        </svg>
+                    </div>
+                    <div class="client-logo">
+                        <svg width="90" height="50" viewBox="0 0 90 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="10" y="30" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="20" font-weight="bold">Netflix</text>
+                        </svg>
+                    </div>
+                    <div class="client-logo">
+                        <svg width="80" height="50" viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="10" y="30" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="20" font-weight="bold">Adobe</text>
+                        </svg>
+                    </div>
+
+                    <!-- Duplicate set for seamless loop -->
+                    <div class="client-logo">
+                        <svg width="120" height="50" viewBox="0 0 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="10" y="30" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="20" font-weight="bold">PlayStation</text>
+                        </svg>
+                    </div>
+                    <div class="client-logo">
+                        <svg width="100" height="50" viewBox="0 0 100 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="5" y="30" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="20" font-weight="bold">Red Bull</text>
+                        </svg>
+                    </div>
+                    <div class="client-logo">
+                        <svg width="80" height="50" viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="15" y="30" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="22" font-weight="bold">AXA</text>
+                        </svg>
+                    </div>
+                    <div class="client-logo">
+                        <svg width="120" height="50" viewBox="0 0 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="5" y="30" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Capital One</text>
+                        </svg>
+                    </div>
+                    <div class="client-logo">
+                        <svg width="100" height="50" viewBox="0 0 100 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="10" y="30" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="20" font-weight="bold">Emirates</text>
+                        </svg>
+                    </div>
+                    <div class="client-logo">
+                        <svg width="80" height="50" viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="10" y="30" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="20" font-weight="bold">Sony</text>
+                        </svg>
+                    </div>
+                    <div class="client-logo">
+                        <svg width="90" height="50" viewBox="0 0 90 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="10" y="30" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="20" font-weight="bold">Netflix</text>
+                        </svg>
+                    </div>
+                    <div class="client-logo">
+                        <svg width="80" height="50" viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <text x="10" y="30" fill="#1a1a1a" font-family="Arial, sans-serif" font-size="20" font-weight="bold">Adobe</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="about-content">
+            <!-- Left Column: About Text -->
+            <div class="about-left">
+                <p class="about-text">
+                    A global team of search-first content marketers engineering semantic relevancy & category signals for both the internet and people
+                </p>
+            </div>
+
+            <!-- Right Column: Bold Heading + CTAs -->
+            <div class="about-right">
+                <div class="about-heading-wrapper">
+                    <h2 class="about-heading">
+                        Driving Demand
+                        <br>
+                        & Discovery
+                        <span class="heading-thumbnail"></span>
+                    </h2>
+                </div>
+
+                <div class="about-ctas">
+                    <button class="cta-primary">
+                        Our Story <span class="cta-arrow">↗</span>
+                    </button>
+                    <a href="#services" class="cta-secondary">
+                        Our Services <span class="cta-arrow">↗</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section">
+        <div class="services-container">
+
+            <!-- Header Section -->
+            <header class="services-header" id="services-header-section">
+                <div class="services-header-left">
+                    <h1 class="services-title">
+                        <span>Our</span>
+                        <div class="services-title-image-container">
+                            <img
+                                src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                                alt="Meeting"
+                                class="services-title-image"
+                            >
+                        </div>
+                        <span>Services</span>
+                    </h1>
+                </div>
+            </header>
+
+            <!-- Divider -->
+            <div class="services-separator-line" id="services-main-divider"></div>
+
+            <!-- Services Grid -->
+            <div class="services-grid">
+
+                <!-- Column 1 -->
+                <div class="services-column">
+                    <!-- Item 1: The Vision Sprint -->
+                    <div class="service-item"
+                         data-image="https://images.unsplash.com/photo-1680016661694-1cd3faf31c3a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm90b3R5cGluZyUyMHdpcmVmcmFtZSUyMHNrZXRjaCUyMGRlc2lnbiUyMG1lZXRpbmd8ZW58MXx8fHwxNzY0MTgyNjA5fDA&ixlib=rb-4.1.0&q=80&w=1080">
+
+                        <!-- Background Image Layer -->
+                        <div class="service-bg"></div>
+                        <!-- Overlay for text contrast -->
+                        <div class="service-overlay"></div>
+
+                        <!-- Content -->
+                        <div class="service-content">
+                            <!-- Arrow Container -->
+                            <div class="service-arrow-container">
+                                <i class="ph ph-arrow-up-right"></i>
+                            </div>
+                            <h2 class="service-text">The Vision Sprint</h2>
+                        </div>
+                    </div>
+
+                    <!-- Item 2: The MVP Launchpad -->
+                    <div class="service-item"
+                         data-image="https://images.unsplash.com/photo-1669023414180-4dcf35d943e1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2RlJTIwc29mdHdhcmUlMjBsYXVuY2glMjBtb2Rlcm4lMjB0ZWNofGVufDF8fHx8MTc2NDE4MjYwOXww&ixlib=rb-4.1.0&q=80&w=1080">
+                        <div class="service-bg"></div>
+                        <div class="service-overlay"></div>
+                        <div class="service-content">
+                            <div class="service-arrow-container">
+                                <i class="ph ph-arrow-up-right"></i>
+                            </div>
+                            <h2 class="service-text">The MVP Launchpad</h2>
+                        </div>
+                    </div>
+
+                    <!-- Item 3: The Growth Engine -->
+                    <div class="service-item"
+                         data-image="https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhbmFseXRpY3MlMjBncm93dGglMjBjaGFydCUyMHBlcmZvcm1hbmNlJTIwZGFzaGJvYXJkfGVufDF8fHx8MTc2NDE4MjYwOXww&ixlib=rb-4.1.0&q=80&w=1080">
+                        <div class="service-bg"></div>
+                        <div class="service-overlay"></div>
+                        <div class="service-content">
+                            <div class="service-arrow-container">
+                                <i class="ph ph-arrow-up-right"></i>
+                            </div>
+                            <h2 class="service-text">The Growth Engine</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="services-column">
+                    <!-- Item 4: Workflow OS -->
+                    <div class="service-item"
+                         data-image="https://images.unsplash.com/photo-1646583288948-24548aedffd8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhcnRpZmljaWFsJTIwaW50ZWxsaWdlbmNlJTIwYXV0b21hdGlvbiUyMHdvcmtmbG93JTIwYWJzdHJhY3R8ZW58MXx8fHwxNzY0MTgyNjA5fDA&ixlib=rb-4.1.0&q=80&w=1080">
+                        <div class="service-bg"></div>
+                        <div class="service-overlay"></div>
+                        <div class="service-content">
+                            <div class="service-arrow-container">
+                                <i class="ph ph-arrow-up-right"></i>
+                            </div>
+                            <h2 class="service-text">Workflow OS</h2>
+                        </div>
+                    </div>
+
+                    <!-- Item 5: The Partner Pod -->
+                    <div class="service-item"
+                         data-image="https://images.unsplash.com/photo-1733826544831-ad71d05c8423?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWFtJTIwY29sbGFib3JhdGlvbiUyMGNvZGluZyUyMHN0YXJ0dXAlMjBvZmZpY2V8ZW58MXx8fHwxNzY0MTgyNjA5fDA&ixlib=rb-4.1.0&q=80&w=1080">
+                        <div class="service-bg"></div>
+                        <div class="service-overlay"></div>
+                        <div class="service-content">
+                            <div class="service-arrow-container">
+                                <i class="ph ph-arrow-up-right"></i>
+                            </div>
+                            <h2 class="service-text">The Partner Pod</h2>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- About Us Stacked Section -->
+    <section id="about" class="about-stacked-section">
+        <div class="about-container">
+            <!-- Section Header -->
+            <div class="about-header">
+                <p class="about-label">About Us</p>
+                <h2 class="about-main-title">
+                    Professional like a firm.<br class="about-title-break" /> Personal like a co-founder.
+                </h2>
+                <p class="about-description">
+                    Material Lab is an AI-first product studio delivering reliable, high-performance software solutions for evolving businesses. With disciplined processes, deep technical capability, and a commitment to excellence, we create products that streamline operations, enhance customer experiences, and power sustainable business growth.
+                </p>
+            </div>
+
+            <!-- Stacked Cards Container -->
+            <div class="about-cards-wrapper" id="aboutCardsWrapper">
+                <!-- Card 1 -->
+                <div class="about-card" data-about-card data-card-index="0">
+                    <div class="about-card-inner" data-card-inner>
+                        <div class="about-card-number-col">
+                            <p class="about-card-number">(01)</p>
+                        </div>
+                        <div class="about-card-content-col">
+                            <div class="about-card-title-wrapper">
+                                <h4 class="about-card-title" data-about-title>Ideation: The Whiteboard Session</h4>
+                            </div>
+                            <div class="about-card-description-wrapper">
+                                <p class="about-card-description" data-about-content>
+                                    Got a napkin sketch? Let's talk. No pitch decks, no sales scripts. Just a working session to see if your idea has legs. We help you take a smart first stab at the concept before you commit a real budget.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="about-card" data-about-card data-card-index="1">
+                    <div class="about-card-inner" data-card-inner>
+                        <div class="about-card-number-col">
+                            <p class="about-card-number">(02)</p>
+                        </div>
+                        <div class="about-card-content-col">
+                            <div class="about-card-title-wrapper">
+                                <h4 class="about-card-title" data-about-title>Build: Transparency & Quality</h4>
+                            </div>
+                            <div class="about-card-description-wrapper">
+                                <p class="about-card-description" data-about-content>
+                                    Quality You Feel. We don't throw specs over a wall. We join your Slack, attend your standups, and integrate with your workflow. We handle the complex engineering under the hood so your users get an experience that just works.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="about-card" data-about-card data-card-index="2">
+                    <div class="about-card-inner" data-card-inner>
+                        <div class="about-card-number-col">
+                            <p class="about-card-number">(03)</p>
+                        </div>
+                        <div class="about-card-content-col">
+                            <div class="about-card-title-wrapper">
+                                <h4 class="about-card-title" data-about-title>Grow: The Outcome</h4>
+                            </div>
+                            <div class="about-card-description-wrapper">
+                                <p class="about-card-description" data-about-content>
+                                    Impact Outcomes, Not Outputs. We don't just ship code; we build engines for revenue. Under the hood, it's complex, state-of-the-art tech. On the surface, it's friction-free and built to scale.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology Section (How We Work) -->
+    <section class="methodology-section" id="how-we-work">
+
+        <!-- Section Header -->
+        <div class="methodology-header-container">
+            <div class="methodology-header-content">
+                <span class="methodology-section-label">Featured Work</span>
+                <h2 class="methodology-main-heading">We let the build do the talking.</h2>
+                <p class="methodology-subheading">Recent outcomes from the lab.</p>
+            </div>
+        </div>
+
+        <!-- Vertical Section Label -->
+        <div class="methodology-vertical-label">
+            <span>FEATURED WORK</span>
+        </div>
+
+        <!-- Parallax Scroll Cards -->
+        <div class="methodology-cards-container">
+
+            <!-- Card 1: Bill, the BOQ Guy -->
+            <div class="methodology-card" data-card="1">
+                <div class="methodology-card-grid">
+                    <span class="methodology-card-number">01</span>
+                    <!-- Text Card -->
+                    <div class="methodology-card-text">
+                        <span class="methodology-card-client">Bill, the BOQ Guy</span>
+                        <h3 class="methodology-card-title">Pricing projects on autopilot.</h3>
+                        <p class="methodology-card-description">Project costing was manual and error-prone. We built a custom AI agent that ingests architectural drawings and parameters to auto-generate accurate Bill of Quantities and proposals in minutes.</p>
+                        <div class="methodology-card-tags">
+                            <span class="methodology-tag">OpenAI Vision Model</span>
+                            <span class="methodology-tag">Python/LangChain</span>
+                            <span class="methodology-tag">Document Parsing</span>
+                        </div>
+                    </div>
+                    <!-- Image Card -->
+                    <div class="methodology-card-image-wrapper">
+                        <div class="methodology-card-image-inner">
+                            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80" alt="Bill, the BOQ Guy" class="methodology-card-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Birdsong -->
+            <div class="methodology-card" data-card="2">
+                <div class="methodology-card-grid">
+                    <span class="methodology-card-number">02</span>
+                    <!-- Text Card -->
+                    <div class="methodology-card-text">
+                        <span class="methodology-card-client">Birdsong</span>
+                        <h3 class="methodology-card-title">Shazam for nature.</h3>
+                        <p class="methodology-card-description">We built a native mobile app that uses geolocation and audio recognition to let users 'collect' birds by listening as they walk - turning a nature walk into a sticky, gamified experience.</p>
+                        <div class="methodology-card-tags">
+                            <span class="methodology-tag">React Native</span>
+                            <span class="methodology-tag">Audio Analysis AI</span>
+                            <span class="methodology-tag">Geolocation</span>
+                        </div>
+                    </div>
+                    <!-- Image Card -->
+                    <div class="methodology-card-image-wrapper">
+                        <div class="methodology-card-image-inner">
+                            <img src="https://images.unsplash.com/photo-1444464666168-49d633b86797?auto=format&fit=crop&w=800&q=80" alt="Birdsong" class="methodology-card-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: JB Singh & Sons -->
+            <div class="methodology-card" data-card="3">
+                <div class="methodology-card-grid">
+                    <span class="methodology-card-number">03</span>
+                    <!-- Text Card -->
+                    <div class="methodology-card-text">
+                        <span class="methodology-card-client">JB Singh & Sons</span>
+                        <h3 class="methodology-card-title">A website that works (literally).</h3>
+                        <p class="methodology-card-description">Static brochure sites are dead weight. We engineered a high-performance corporate site and plugged in internal AI workflows to automate the backend admin tasks that usually slow teams down.</p>
+                        <div class="methodology-card-tags">
+                            <span class="methodology-tag">React</span>
+                            <span class="methodology-tag">GSAP</span>
+                            <span class="methodology-tag">Internal AI Tools</span>
+                            <span class="methodology-tag">SEO Architecture</span>
+                        </div>
+                    </div>
+                    <!-- Image Card -->
+                    <div class="methodology-card-image-wrapper">
+                        <div class="methodology-card-image-inner">
+                            <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=800&q=80" alt="JB Singh & Sons" class="methodology-card-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: CargoSphere -->
+            <div class="methodology-card" data-card="4">
+                <div class="methodology-card-grid">
+                    <span class="methodology-card-number">04</span>
+                    <!-- Text Card -->
+                    <div class="methodology-card-text">
+                        <span class="methodology-card-client">CargoSphere</span>
+                        <h3 class="methodology-card-title">Global expansion roadmap.</h3>
+                        <p class="methodology-card-description">Expanding a logistics stack into new countries is a technical minefield. We are currently auditing their architecture to deliver a validated Go-to-Market strategy that ensures compliance and stability at scale.</p>
+                        <div class="methodology-card-tags">
+                            <span class="methodology-tag">System Architecture</span>
+                            <span class="methodology-tag">Cloud Compliance</span>
+                            <span class="methodology-tag">Tech Strategy Audit</span>
+                        </div>
+                    </div>
+                    <!-- Image Card -->
+                    <div class="methodology-card-image-wrapper">
+                        <div class="methodology-card-image-inner">
+                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80" alt="CargoSphere" class="methodology-card-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Perhitsiksha -->
+            <div class="methodology-card" data-card="5">
+                <div class="methodology-card-grid">
+                    <span class="methodology-card-number">05</span>
+                    <!-- Text Card -->
+                    <div class="methodology-card-text">
+                        <span class="methodology-card-client">Perhitsiksha</span>
+                        <h3 class="methodology-card-title">Scaling student success.</h3>
+                        <p class="methodology-card-description">Volunteers were drowning in paperwork. We architected a custom CRM and WhatsApp automation bot that manages donations and grants, so the team can focus on the kids, not the data entry.</p>
+                        <div class="methodology-card-tags">
+                            <span class="methodology-tag">Custom CRM</span>
+                            <span class="methodology-tag">WhatsApp Cloud API</span>
+                            <span class="methodology-tag">Python Automation</span>
+                        </div>
+                    </div>
+                    <!-- Image Card -->
+                    <div class="methodology-card-image-wrapper">
+                        <div class="methodology-card-image-inner">
+                            <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80" alt="Perhitsiksha" class="methodology-card-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6: Alamirap Nutrition -->
+            <div class="methodology-card" data-card="6">
+                <div class="methodology-card-grid">
+                    <span class="methodology-card-number">06</span>
+                    <!-- Text Card -->
+                    <div class="methodology-card-text">
+                        <span class="methodology-card-client">Alamirap Nutrition</span>
+                        <h3 class="methodology-card-title">The self-driving sales funnel.</h3>
+                        <p class="methodology-card-description">Manual follow-ups were killing conversion rates. We implemented end-to-end automation that nurtures leads from click to purchase without a single human touchpoint.</p>
+                        <div class="methodology-card-tags">
+                            <span class="methodology-tag">Marketing APIs</span>
+                            <span class="methodology-tag">CRM Workflows</span>
+                            <span class="methodology-tag">Lead Funnel Architecture</span>
+                        </div>
+                    </div>
+                    <!-- Image Card -->
+                    <div class="methodology-card-image-wrapper">
+                        <div class="methodology-card-image-inner">
+                            <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80" alt="Alamirap Nutrition" class="methodology-card-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 7: Numbers -->
+            <div class="methodology-card" data-card="7">
+                <div class="methodology-card-grid">
+                    <span class="methodology-card-number">07</span>
+                    <!-- Text Card -->
+                    <div class="methodology-card-text">
+                        <span class="methodology-card-client">Numbers</span>
+                        <h3 class="methodology-card-title">Making math addictive.</h3>
+                        <p class="methodology-card-description">We turned tedious mental math practice into a game. By building infinite practice loops and instant feedback mechanisms, we increased user retention and improved learning speeds.</p>
+                        <div class="methodology-card-tags">
+                            <span class="methodology-tag">React Native</span>
+                            <span class="methodology-tag">Adaptive Algorithms</span>
+                            <span class="methodology-tag">Gamification Logic</span>
+                        </div>
+                    </div>
+                    <!-- Image Card -->
+                    <div class="methodology-card-image-wrapper">
+                        <div class="methodology-card-image-inner">
+                            <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=80" alt="Numbers" class="methodology-card-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 8: TMEN Systems -->
+            <div class="methodology-card" data-card="8">
+                <div class="methodology-card-grid">
+                    <span class="methodology-card-number">08</span>
+                    <!-- Text Card -->
+                    <div class="methodology-card-text">
+                        <span class="methodology-card-client">TMEN Systems</span>
+                        <h3 class="methodology-card-title">One source of truth for sales.</h3>
+                        <p class="methodology-card-description">Fragmented tools were slowing down the sales cycle. We are re-architecting their GTM systems to centralize data, giving the sales team a unified dashboard to close deals faster.</p>
+                        <div class="methodology-card-tags">
+                            <span class="methodology-tag">Data Pipelines</span>
+                            <span class="methodology-tag">CRM Architecture</span>
+                            <span class="methodology-tag">Sales Enablement</span>
+                        </div>
+                    </div>
+                    <!-- Image Card -->
+                    <div class="methodology-card-image-wrapper">
+                        <div class="methodology-card-image-inner">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="TMEN Systems" class="methodology-card-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 9: Troupex -->
+            <div class="methodology-card" data-card="9">
+                <div class="methodology-card-grid">
+                    <span class="methodology-card-number">09</span>
+                    <!-- Text Card -->
+                    <div class="methodology-card-text">
+                        <span class="methodology-card-client">Troupex</span>
+                        <h3 class="methodology-card-title">The network for entertainers.</h3>
+                        <p class="methodology-card-description">LinkedIn doesn't work for gig-based artists. We are building a specialized social graph and portfolio platform designed specifically for the entertainment industry's unique workflow.</p>
+                        <div class="methodology-card-tags">
+                            <span class="methodology-tag">Graph Database</span>
+                            <span class="methodology-tag">React Native</span>
+                            <span class="methodology-tag">Social Graph Architecture</span>
+                        </div>
+                    </div>
+                    <!-- Image Card -->
+                    <div class="methodology-card-image-wrapper">
+                        <div class="methodology-card-image-inner">
+                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80" alt="Troupex" class="methodology-card-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Manifesto Section -->
+    <section class="manifesto-section" id="manifesto">
+        <div class="manifesto-container">
+            <div class="manifesto-grid">
+                <!-- Left Column - Sticky Title -->
+                <div class="manifesto-left">
+                    <h2 class="manifesto-title">
+                        Software should feel effortless.
+                    </h2>
+                </div>
+
+                <!-- Right Column - Content -->
+                <div class="manifesto-right">
+                    <div class="manifesto-content">
+                        <!-- Intro -->
+                        <div class="manifesto-intro">
+                            <h3 class="manifesto-subtitle">The craft of a studio. The heart of a team.</h3>
+                            <p class="manifesto-description">
+                                Too many great ideas fail because of messy execution. We built Material Lab to fix that. We aren't a run-of-the-mill agency. We are professional, accountable, and obsessively collaborative.
+                            </p>
+                            <p class="manifesto-description">
+                                We don't just deliver a service; we co-own the outcome. We integrate with your workflows, debate the strategy, and build software that simply feels better to use.
+                            </p>
+                        </div>
+
+                        <!-- Core Values Grid -->
+                        <div class="core-values-grid">
+                            <!-- Value 1 -->
+                            <div class="core-value-item">
+                                <h4 class="core-value-title">Plain English Defaults</h4>
+                                <p class="core-value-desc">
+                                    We replace the Black Box of development with a Glass Box. We explain the architecture in terms that make sense for your business, so you never feel like an outsider.
+                                </p>
+                            </div>
+
+                            <!-- Value 2 -->
+                            <div class="core-value-item">
+                                <h4 class="core-value-title">Code is a Liability</h4>
+                                <p class="core-value-desc">
+                                    More code means more maintenance. We fight to write less code that does more, using automation to handle the heavy lifting.
+                                </p>
+                            </div>
+
+                            <!-- Value 3 -->
+                            <div class="core-value-item">
+                                <h4 class="core-value-title">People Over Pixels</h4>
+                                <p class="core-value-desc">
+                                    We don't design for awards; we design for utility. We obsess over the feel of the software until it works effortlessly.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Section - A Note from the Team -->
+    <section class="quote-section-wrapper">
+        <div class="quote-container">
+            <div class="quote-card">
+                <span class="quote-label">A Note from the Team</span>
+                <blockquote class="quote-text">
+                    We treat your budget like it's our own money. If a feature doesn't add value, we'll kill it before we bill for it. No lock-in contracts. You own the code from Day 1.
+                </blockquote>
+            </div>
+        </div>
+    </section>
+
+    <!-- Falling Text Section (Above Footer) -->
+    <section class="falling-text-section">
+        <div class="falling-text-container">
+            <h2 class="falling-text" id="falling-text">Book a Whiteboard Session — Let's Build</h2>
+        </div>
+    </section>
+
+    <!-- Footer Section (Material Lab Design) -->
+    <footer class="ml-footer">
+        <div class="ml-footer-container">
+
+            <!-- Main Footer Grid -->
+            <div class="ml-footer-grid">
+
+                <!-- LEFT COLUMN: CTA + Social + Founders -->
+                <div class="ml-footer-left">
+
+                    <!-- CTA Section -->
+                    <div class="ml-footer-cta">
+                        <h2 class="ml-footer-cta-title">Got a project<br>in mind?</h2>
+                        <a href="https://wa.me/918050131733" class="ml-footer-cta-button" target="_blank" rel="noopener noreferrer">
+                            <i class="ph ph-chat-circle-text"></i>
+                            <span>Text Us</span>
+                            <i class="ph ph-arrow-up-right"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT COLUMNS: Founders + Connect -->
+                <div class="ml-footer-right">
+
+                    <!-- Founders Column -->
+                    <div class="ml-footer-nav-column">
+                        <h5 class="ml-footer-section-label">Founders</h5>
+                        <div class="ml-founders-list">
+                            <a href="https://www.linkedin.com/in/daminirathi" class="ml-founder-item" target="_blank" rel="noopener noreferrer">
+                                <div class="ml-founder-avatar">
+                                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face" alt="Damini Rathi">
+                                </div>
+                                <span class="ml-founder-name">Damini Rathi</span>
+                            </a>
+                            <a href="https://www.linkedin.com/in/kaushik-naarayan/" class="ml-founder-item" target="_blank" rel="noopener noreferrer">
+                                <div class="ml-founder-avatar">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" alt="Kaushik Naarayan">
+                                </div>
+                                <span class="ml-founder-name">Kaushik Naarayan</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Connect Column -->
+                    <div class="ml-footer-nav-column">
+                        <h5 class="ml-footer-section-label">Connect</h5>
+                        <ul class="ml-footer-links">
+                            <li><a href="mailto:damini@materiallab.io" class="ml-footer-link"><span>damini@materiallab.io</span><span>damini@materiallab.io</span></a></li>
+                            <li><a href="https://wa.me/918050131733" class="ml-footer-link"><span>WhatsApp</span><span>WhatsApp</span></a></li>
+                        </ul>
+
+                        <!-- Social Pills -->
+                        <h5 class="ml-footer-section-label" style="margin-top: 40px;">Find us here</h5>
+                        <div class="ml-footer-social">
+                            <a href="https://wa.me/918050131733" class="ml-social-pill" target="_blank" rel="noopener noreferrer">
+                                <i class="ph ph-chat-circle-text"></i>
+                                <i class="ph ph-arrow-up-right"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/company/material-lab-io/" class="ml-social-pill" target="_blank" rel="noopener noreferrer">
+                                <i class="ph ph-linkedin-logo"></i>
+                                <i class="ph ph-arrow-up-right"></i>
+                            </a>
+                            <a href="https://x.com/kaushiknaarayan" class="ml-social-pill" target="_blank" rel="noopener noreferrer">
+                                <i class="ph ph-twitter-logo"></i>
+                                <i class="ph ph-arrow-up-right"></i>
+                            </a>
+                            <a href="https://github.com/material-lab-io" class="ml-social-pill" target="_blank" rel="noopener noreferrer">
+                                <i class="ph ph-github-logo"></i>
+                                <i class="ph ph-arrow-up-right"></i>
+                            </a>
+                            <a href="https://blog.kaushiknaarayan.me/" class="ml-social-pill" target="_blank" rel="noopener noreferrer">
+                                <i class="ph ph-book-open"></i>
+                                <i class="ph ph-arrow-up-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Brand Wordmark - Massive scale -->
+            <div class="ml-footer-wordmark">
+                <h2 class="ml-wordmark-text">Material Lab</h2>
+            </div>
+
+            <!-- Legal Bar -->
+            <div class="ml-footer-legal">
+                <div class="ml-legal-left">
+                    <span>© 2025 Material Lab</span>
+                    <span class="ml-legal-dot">•</span>
+                    <a href="#" class="ml-legal-link">Privacy</a>
+                    <span class="ml-legal-dot">•</span>
+                    <a href="#" class="ml-legal-link">Terms</a>
+                </div>
+                <div class="ml-legal-right">
+                    Building delightful things for good people.
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- GSAP Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Unicorn Studio -->
+    <script type="text/javascript">!function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.35/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();</script>
+
+    <script src="script.js"></script>
+</body>
+</html>
