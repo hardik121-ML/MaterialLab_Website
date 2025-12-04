@@ -427,68 +427,68 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ========================================
-       ABOUT SECTION ANIMATIONS
+       ABOUT SECTION ANIMATIONS (COMMENTED OUT - SECTION REMOVED)
     ======================================== */
 
     // About text reveal
-    gsap.from('.about-text', {
-        scrollTrigger: {
-            trigger: '.about-client-section',
-            start: "top 70%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse"
-        },
-        opacity: 0,
-        y: 40,
-        duration: 1,
-        ease: "power3.out"
-    });
+    // gsap.from('.about-text', {
+    //     scrollTrigger: {
+    //         trigger: '.about-client-section',
+    //         start: "top 70%",
+    //         end: "bottom 20%",
+    //         toggleActions: "play none none reverse"
+    //     },
+    //     opacity: 0,
+    //     y: 40,
+    //     duration: 1,
+    //     ease: "power3.out"
+    // });
 
-    // About heading reveal with word animation
-    gsap.from('.about-heading', {
-        scrollTrigger: {
-            trigger: '.about-client-section',
-            start: "top 70%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse"
-        },
-        opacity: 0,
-        y: 60,
-        duration: 1.2,
-        ease: "power3.out"
-    });
+    // // About heading reveal with word animation
+    // gsap.from('.about-heading', {
+    //     scrollTrigger: {
+    //         trigger: '.about-client-section',
+    //         start: "top 70%",
+    //         end: "bottom 20%",
+    //         toggleActions: "play none none reverse"
+    //     },
+    //     opacity: 0,
+    //     y: 60,
+    //     duration: 1.2,
+    //     ease: "power3.out"
+    // });
 
-    // Thumbnail reveal
-    gsap.from('.heading-thumbnail', {
-        scrollTrigger: {
-            trigger: '.about-client-section',
-            start: "top 70%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse"
-        },
-        opacity: 0,
-        scale: 0.5,
-        rotation: -10,
-        duration: 0.8,
-        ease: "back.out(1.7)",
-        delay: 0.3
-    });
+    // // Thumbnail reveal
+    // gsap.from('.heading-thumbnail', {
+    //     scrollTrigger: {
+    //         trigger: '.about-client-section',
+    //         start: "top 70%",
+    //         end: "bottom 20%",
+    //         toggleActions: "play none none reverse"
+    //     },
+    //     opacity: 0,
+    //     scale: 0.5,
+    //     rotation: -10,
+    //     duration: 0.8,
+    //     ease: "back.out(1.7)",
+    //     delay: 0.3
+    // });
 
-    // CTAs reveal with stagger
-    gsap.from('.about-ctas > *', {
-        scrollTrigger: {
-            trigger: '.about-client-section',
-            start: "top 70%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse"
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power3.out",
-        delay: 0.4
-    });
+    // // CTAs reveal with stagger
+    // gsap.from('.about-ctas > *', {
+    //     scrollTrigger: {
+    //         trigger: '.about-client-section',
+    //         start: "top 70%",
+    //         end: "bottom 20%",
+    //         toggleActions: "play none none reverse"
+    //     },
+    //     opacity: 0,
+    //     y: 30,
+    //     duration: 0.8,
+    //     stagger: 0.15,
+    //     ease: "power3.out",
+    //     delay: 0.4
+    // });
 
     /* ========================================
        CTA BUTTON MAGNETIC EFFECTS
