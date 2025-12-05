@@ -39,7 +39,7 @@
             <div class="nav-container">
                 <!-- Logo -->
                 <div class="nav-logo">
-                    <a href="#home">Rise at Seven</a>
+                    <a href="#home">Material Lab</a>
                 </div>
 
                 <!-- Navigation Links -->
@@ -83,9 +83,9 @@
 
     <!-- Hero Section -->
     <section class="hero-section" id="home">
-        <!-- Blurred Background -->
+        <!-- 3D City Background -->
         <div class="hero-background">
-            <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1920" alt="Hero Background" class="hero-bg-image">
+            <canvas id="city-canvas"></canvas>
         </div>
 
         <!-- Hero Content -->
@@ -894,6 +894,12 @@
 
         </div>
     </footer>
+
+    <!-- Three.js for 3D City -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- TweenMax for 3D City animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
 
     <!-- GSAP Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
