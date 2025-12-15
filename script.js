@@ -2852,15 +2852,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const footer = document.querySelector('.ml-footer');
     if (!footer) return;
 
-    // Grid configuration
-    const COLS = 20;
-    const ROWS = 12;
-    const MOUSE_RADIUS = 150;
-    const FORCE_STRENGTH = 30;
-    const DAMPING = 0.92;
-    const SPRING = 0.03;
+    // Grid configuration - Dense square grid
+    const CELL_SIZE = 32; // Square cells - smaller = denser
+    const MOUSE_RADIUS = 100;
+    const FORCE_STRENGTH = 45;
+    const DAMPING = 0.85;
+    const SPRING = 0.08;
 
     let nodes = [];
+    let cols = 1;
+    let rows = 1;
     let mouse = { x: -1000, y: -1000 };
     let animationId = null;
     let isAnimating = false;
@@ -2870,22 +2871,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const rect = footer.getBoundingClientRect();
         canvas.width = rect.width;
         canvas.height = rect.height;
+        // Calculate cols/rows based on cell size for square grid
+        cols = Math.ceil(rect.width / CELL_SIZE) + 1;
+        rows = Math.ceil(rect.height / CELL_SIZE) + 1;
         initNodes();
     }
 
-    // Initialize grid nodes
+    // Initialize grid nodes - square spacing
     function initNodes() {
         nodes = [];
-        const spacingX = canvas.width / (COLS - 1);
-        const spacingY = canvas.height / (ROWS - 1);
-
-        for (let row = 0; row < ROWS; row++) {
-            for (let col = 0; col < COLS; col++) {
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                const x = col * CELL_SIZE;
+                const y = row * CELL_SIZE;
                 nodes.push({
-                    x: col * spacingX,
-                    y: row * spacingY,
-                    originX: col * spacingX,
-                    originY: row * spacingY,
+                    x: x,
+                    y: y,
+                    originX: x,
+                    originY: y,
                     vx: 0,
                     vy: 0
                 });
@@ -2926,14 +2929,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Draw grid
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.strokeStyle = '#050505';
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.12)'; // Light gray grid
         ctx.lineWidth = 1;
 
         // Draw horizontal lines
-        for (let row = 0; row < ROWS; row++) {
+        for (let row = 0; row < rows; row++) {
             ctx.beginPath();
-            for (let col = 0; col < COLS; col++) {
-                const node = nodes[row * COLS + col];
+            for (let col = 0; col < cols; col++) {
+                const node = nodes[row * cols + col];
                 if (col === 0) {
                     ctx.moveTo(node.x, node.y);
                 } else {
@@ -2944,10 +2947,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Draw vertical lines
-        for (let col = 0; col < COLS; col++) {
+        for (let col = 0; col < cols; col++) {
             ctx.beginPath();
-            for (let row = 0; row < ROWS; row++) {
-                const node = nodes[row * COLS + col];
+            for (let row = 0; row < rows; row++) {
+                const node = nodes[row * cols + col];
                 if (row === 0) {
                     ctx.moveTo(node.x, node.y);
                 } else {
@@ -3115,11 +3118,14 @@ const ISO = {
         cycleTime = (time * 0.8) % CYCLE_DURATION;
         const cycleProgress = cycleTime / CYCLE_DURATION;
 
-        // Table dimensions - fills container with padding
+        // Table dimensions - fills container vertically
         const tableWidth = width - PADDING * 2;
         const tableX = PADDING;
-        const tableY = PADDING + 25;
-        const rowHeight = Math.min(28, (height - 80) / 7);
+        const statusHeight = 25; // Space for "AI SCANNING..." at bottom
+        const availableHeight = height - PADDING * 2 - statusHeight;
+        const numRows = 8; // header + 6 items + total
+        const rowHeight = availableHeight / numRows;
+        const tableY = PADDING;
         const colWidths = [tableWidth * 0.32, tableWidth * 0.18, tableWidth * 0.18, tableWidth * 0.32];
 
         // Draw header
@@ -3305,12 +3311,13 @@ const ISO = {
         { sender: 'School', text: 'Attendance report', type: 'report' }
     ];
 
-    // Student records that get updated
+    // Student records that get updated (5 rows to fill space)
     const students = [
         { name: 'Priya S.', status: 'Active', donations: 0, targetDonations: 12500 },
         { name: 'Rahul M.', status: 'Active', donations: 0, targetDonations: 8200 },
         { name: 'Anjali K.', status: 'Active', donations: 0, targetDonations: 15000 },
-        { name: 'Vikram P.', status: 'Pending', donations: 0, targetDonations: 6800 }
+        { name: 'Vikram P.', status: 'Pending', donations: 0, targetDonations: 6800 },
+        { name: 'Sneha R.', status: 'Active', donations: 0, targetDonations: 9500 }
     ];
 
     // Animation state
@@ -3342,7 +3349,7 @@ const ISO = {
 
     function drawWhatsAppBubble(x, y, text, sender, alpha, isProcessing) {
         const bubbleWidth = (width - PADDING * 2) * 0.45;
-        const bubbleHeight = 45 * scale;
+        const bubbleHeight = 40 * scale; // Consistent height with records
 
         ctx.save();
         ctx.globalAlpha = alpha;
@@ -3380,7 +3387,7 @@ const ISO = {
 
     function drawStudentRecord(x, y, student, index, highlight) {
         const recordWidth = (width - PADDING * 2) * 0.45;
-        const recordHeight = 32 * scale;
+        const recordHeight = 40 * scale; // Consistent height with bubbles
 
         ctx.save();
 
@@ -3419,13 +3426,19 @@ const ISO = {
         ctx.clearRect(0, 0, width, height);
         time += 0.016;
 
-        // Layout - fills container with padding
+        // Layout - fills container vertically
         const contentWidth = width - PADDING * 2;
         const leftCol = PADDING;
         const rightCol = PADDING + contentWidth * 0.52;
 
-        // Spawn new messages periodically
-        if (Math.random() > 0.985 && messageQueue.length < 3) {
+        // Compact top-aligned layout with tighter spacing
+        const headerHeight = 25;
+        const rowSpacing = 55 * scale; // Tighter spacing for 5 rows
+        const studentSpacing = rowSpacing;
+        const messageSpacing = rowSpacing;
+
+        // Spawn new messages periodically (up to 5)
+        if (Math.random() > 0.98 && messageQueue.length < 5) {
             spawnMessage();
         }
 
@@ -3433,30 +3446,35 @@ const ISO = {
         ctx.fillStyle = 'rgba(23, 247, 247, 0.7)';
         ctx.font = `bold ${8 * scale + 1}px "JetBrains Mono", monospace`;
         ctx.textAlign = 'left';
-        ctx.fillText('INCOMING', leftCol, PADDING + 15);
-        ctx.fillText('STUDENT RECORDS', rightCol, PADDING + 15);
+        ctx.fillText('INCOMING', leftCol, PADDING + 12);
+        ctx.fillText('STUDENT RECORDS', rightCol, PADDING + 12);
 
-        // Process message queue
-        let yOffset = PADDING + 35;
+        // Process message queue - track processing message position
+        let yOffset = PADDING + headerHeight;
+        let processingMsgY = null;
+        let targetStudentIdx = Math.floor(time * 0.5) % students.length;
+
         messageQueue = messageQueue.filter((msg, i) => {
             // Fade in
             msg.alpha = Math.min(1, msg.alpha + 0.05);
 
             // Draw message bubble
             const isProcessing = i === 0 && messageProgress > 0.3;
+            if (isProcessing) {
+                processingMsgY = yOffset + 20 * scale; // Center of bubble
+            }
             drawWhatsAppBubble(leftCol, yOffset, msg.text, msg.sender, msg.alpha, isProcessing);
 
-            yOffset += 55 * scale;
+            yOffset += messageSpacing;
 
             // Process first message
             if (i === 0) {
                 messageProgress += 0.008;
                 if (messageProgress > 1) {
-                    // Update a random student's donations
-                    const studentIdx = Math.floor(Math.random() * students.length);
-                    students[studentIdx].donations = Math.min(
-                        students[studentIdx].targetDonations,
-                        students[studentIdx].donations + Math.random() * 3000 + 1000
+                    // Update the target student's donations
+                    students[targetStudentIdx].donations = Math.min(
+                        students[targetStudentIdx].targetDonations,
+                        students[targetStudentIdx].donations + Math.random() * 3000 + 1000
                     );
                     processedCount++;
                     messageProgress = 0;
@@ -3467,32 +3485,45 @@ const ISO = {
             return msg.alpha < 1 || i === 0 || yOffset < height - 40;
         });
 
-        // Draw student records
-        let studentY = PADDING + 35;
-        const highlightIdx = Math.floor(time * 0.5) % students.length;
+        // Draw student records - track target student position
+        let studentY = PADDING + headerHeight;
+        let targetStudentY = null;
         students.forEach((student, i) => {
             // Animate donations counting up
             if (student.donations < student.targetDonations) {
                 student.donations += (student.targetDonations - student.donations) * 0.02;
             }
-            drawStudentRecord(rightCol, studentY, student, i, i === highlightIdx);
-            studentY += 40 * scale;
+            const isTarget = i === targetStudentIdx;
+            if (isTarget) {
+                targetStudentY = studentY + 20 * scale; // Center of record
+            }
+            drawStudentRecord(rightCol, studentY, student, i, isTarget);
+            studentY += studentSpacing;
         });
 
-        // Draw connection arrow (animated)
-        const arrowX = PADDING + contentWidth * 0.47;
-        const arrowY = height * 0.45;
-        const arrowPulse = 0.5 + Math.sin(time * 3) * 0.3;
+        // Draw connection arrow - connects processing message to target student
+        if (processingMsgY && targetStudentY) {
+            const arrowPulse = 0.6 + Math.sin(time * 4) * 0.4;
+            const bubbleRight = leftCol + (width - PADDING * 2) * 0.45;
+            const recordLeft = rightCol;
 
-        ctx.strokeStyle = `rgba(23, 247, 247, ${arrowPulse})`;
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(arrowX - 15 * scale, arrowY);
-        ctx.lineTo(arrowX + 15 * scale, arrowY);
-        ctx.lineTo(arrowX + 8 * scale, arrowY - 6 * scale);
-        ctx.moveTo(arrowX + 15 * scale, arrowY);
-        ctx.lineTo(arrowX + 8 * scale, arrowY + 6 * scale);
-        ctx.stroke();
+            ctx.strokeStyle = `rgba(23, 247, 247, ${arrowPulse})`;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            // Draw from right edge of bubble to left edge of record
+            ctx.moveTo(bubbleRight + 5, processingMsgY);
+            ctx.lineTo(recordLeft - 5, targetStudentY);
+            ctx.stroke();
+
+            // Arrow head
+            const angle = Math.atan2(targetStudentY - processingMsgY, recordLeft - bubbleRight);
+            ctx.beginPath();
+            ctx.moveTo(recordLeft - 5, targetStudentY);
+            ctx.lineTo(recordLeft - 5 - 10 * Math.cos(angle - 0.4), targetStudentY - 10 * Math.sin(angle - 0.4));
+            ctx.moveTo(recordLeft - 5, targetStudentY);
+            ctx.lineTo(recordLeft - 5 - 10 * Math.cos(angle + 0.4), targetStudentY - 10 * Math.sin(angle + 0.4));
+            ctx.stroke();
+        }
 
         // Stats at bottom
         ctx.fillStyle = 'rgba(23, 247, 247, 0.8)';
@@ -3585,7 +3616,13 @@ const ISO = {
     function drawWaveform(x, y, w, h) {
         const sliceWidth = w / waveformData.length;
 
-        ctx.fillStyle = 'rgba(23, 247, 247, 0.05)';
+        // Subtle gradient background instead of harsh box
+        const gradient = ctx.createLinearGradient(x, y - h/2, x, y + h/2);
+        gradient.addColorStop(0, 'rgba(23, 247, 247, 0)');
+        gradient.addColorStop(0.3, 'rgba(23, 247, 247, 0.03)');
+        gradient.addColorStop(0.7, 'rgba(23, 247, 247, 0.03)');
+        gradient.addColorStop(1, 'rgba(23, 247, 247, 0)');
+        ctx.fillStyle = gradient;
         ctx.fillRect(x, y - h/2, w, h);
 
         ctx.strokeStyle = analysisPhase === 1 ? 'rgba(23, 247, 247, 0.9)' : 'rgba(23, 247, 247, 0.6)';
@@ -3707,33 +3744,44 @@ const ISO = {
 
         generateWaveform();
 
-        // Layout - fills container with padding
+        // Layout - fills container vertically with better top padding
         const contentWidth = width - PADDING * 2;
+        const topPadding = 35; // More breathing room at top
+        const headerHeight = 25;
+        const statusHeight = 20;
+        const speciesHeaderHeight = 25;
+        const availableHeight = height - PADDING - topPadding - statusHeight;
 
-        const waveformY = PADDING + 55 * scale;
-        const waveformHeight = 70 * scale;
+        // Proportional allocation: ~28% waveform, ~72% species results
+        const waveformHeight = availableHeight * 0.28;
+        const waveformY = topPadding + headerHeight;
 
         ctx.fillStyle = 'rgba(23, 247, 247, 0.8)';
         ctx.font = `bold ${8 * scale + 1}px "JetBrains Mono", monospace`;
         ctx.textAlign = 'left';
-        ctx.fillText('AUDIO INPUT', PADDING, PADDING + 15);
+        ctx.fillText('AUDIO INPUT', PADDING, topPadding);
 
         const statusText = analysisPhase === 0 ? '● LISTENING...' :
                           analysisPhase === 1 ? '● ANALYZING...' : '● MATCH FOUND';
         const statusColor = analysisPhase === 2 ? 'rgba(5, 247, 165, 0.9)' : 'rgba(23, 247, 247, 0.7)';
         ctx.fillStyle = statusColor;
         ctx.textAlign = 'right';
-        ctx.fillText(statusText, width - PADDING, PADDING + 15);
+        ctx.fillText(statusText, width - PADDING, topPadding);
 
         drawWaveform(PADDING, waveformY, contentWidth, waveformHeight);
 
+        // Species match section
+        const speciesLabelY = waveformY + waveformHeight + speciesHeaderHeight;
         ctx.fillStyle = 'rgba(23, 247, 247, 0.7)';
         ctx.font = `bold ${7 * scale + 1}px "JetBrains Mono", monospace`;
         ctx.textAlign = 'left';
-        ctx.fillText('SPECIES MATCH', PADDING, waveformY + waveformHeight/2 + 30 * scale);
+        ctx.fillText('SPECIES MATCH', PADDING, speciesLabelY - 8);
 
-        const resultsY = waveformY + waveformHeight/2 + 42 * scale;
-        const resultSpacing = 56 * scale;
+        // Calculate dynamic spacing for 3 species cards
+        const resultsY = speciesLabelY;
+        const resultsAvailable = height - resultsY - statusHeight - PADDING;
+        const numCards = 3;
+        const resultSpacing = resultsAvailable / numCards;
 
         const sortedBirds = [...birdSpecies].sort((a, b) => b.confidence - a.confidence).slice(0, 3);
 
