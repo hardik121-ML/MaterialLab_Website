@@ -5,7 +5,7 @@
 :root {
     /* ===== Color Tokens (Material Lab Brand Kit) ===== */
     --background: #050505;              /* Void Black - Deepest void */
-    --foreground: #fefefe;              /* Ghost White - Pure white */
+    --foreground: #f5f5f0;              /* Warm Off-White - Human warmth */
     --card: #090909;                    /* OLED Black - Slightly elevated */
     --primary: #17f7f7;                 /* Laser Cyan - Primary accent */
     --primary-foreground: #000000;      /* Black text on cyan */
@@ -102,7 +102,7 @@
     /* Body - Inter Regular 16px */
     --type-body-size: 1rem;
     --type-body-weight: 400;
-    --type-body-lh: 1.6;
+    --type-body-lh: 1.7;  /* Increased for warmth/readability */
     --type-body-tracking: 0;
 
     /* Body Small - Inter Regular 14px */
@@ -1224,13 +1224,43 @@ button:focus-visible,
     line-height: var(--type-display-lh);
     letter-spacing: var(--type-display-tracking);
     color: var(--foreground);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
     opacity: 0;
     will-change: opacity, transform;
 }
 
+/* AI + Human messaging line */
+.ai-human-line {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--foreground);
+    opacity: 0.6;
+    margin-bottom: var(--spacing-md);
+    letter-spacing: 0.02em;
+}
+
 .heading-line {
     display: block;
+}
+
+/* Hand-drawn underline accent - human warmth */
+.hand-drawn-underline {
+    position: relative;
+    display: inline-block;
+}
+
+.hand-drawn-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.1em;
+    height: 0.15em;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'%3E%3Cpath d='M0,5 Q25,2 50,5 T100,5 T150,5 T200,5' stroke='%23f5f5f0' stroke-width='2' fill='none' opacity='0.4'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-size: 100px 100%;
+    opacity: 0.5;
 }
 
 /* Inline Image (Replacing "O") */
@@ -1333,8 +1363,78 @@ button:focus-visible,
     text-align: center;
 }
 
+/* Studio Note - Human warmth element */
+.studio-note {
+    margin-top: 2rem;
+    text-align: center;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.studio-note p {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--foreground);
+    opacity: 0.7;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+}
+
+.studio-signature {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--foreground);
+    opacity: 0.5;
+    letter-spacing: 0.02em;
+}
+
+/* Hero CTA Group */
+.hero-cta-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Human Proof Badge */
+.human-proof {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    color: var(--foreground);
+    opacity: 0.5;
+    letter-spacing: 0.03em;
+}
+
+/* Human Proof Badges - trust indicators */
+.human-proof-badges {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.proof-badge {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: var(--foreground);
+    opacity: 0.5;
+    letter-spacing: 0.03em;
+    padding: 0.25rem 0;
+}
+
 /* Responsive - Mobile */
 @media (max-width: 767px) {
+    .studio-note {
+        margin-top: 1.5rem;
+        max-width: 300px;
+    }
+
+    .studio-note p {
+        font-size: 1rem;
+    }
+
     .hero-footer {
         flex-direction: column;
         align-items: center;
@@ -1418,8 +1518,7 @@ button:focus-visible,
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 12px;  /* Space between icon and text */
+    gap: 12px;
     opacity: 0.7;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
@@ -1429,15 +1528,24 @@ button:focus-visible,
     transform: scale(1.05);
 }
 
-/* Company logo image styling */
-.client-logo .company-icon {
-    height: 32px;  /* Logo height */
-    width: auto;   /* Maintain aspect ratio */
-    object-fit: contain;
-    filter: brightness(1);  /* Ensure white logos stay white */
+/* Circular letter logo */
+.logo-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--foreground);
+    letter-spacing: -0.02em;
+    flex-shrink: 0;
 }
 
-/* Company name text styling */
+/* Company name text */
 .client-logo span {
     font-family: var(--font-sans);
     font-size: var(--type-body-size);
@@ -1449,12 +1557,14 @@ button:focus-visible,
 
 /* Responsive styling for client logos */
 @media (max-width: 767px) {
-    .client-logo .company-icon {
-        height: 24px;  /* Smaller logo on mobile */
+    .logo-circle {
+        width: 32px;
+        height: 32px;
+        font-size: 0.75rem;
     }
 
     .logo-track {
-        gap: 48px;  /* Reduce gap on mobile */
+        gap: 48px;
     }
 }
 
@@ -1496,7 +1606,7 @@ button:focus-visible,
 .services-section {
     position: relative;
     padding: var(--section-padding-desktop) 0;
-    background: var(--card);  /* OLED Black #090909 */
+    background: var(--background);  /* Consistent Void Black #050505 */
     overflow: hidden;
 }
 
@@ -1613,7 +1723,12 @@ button:focus-visible,
     opacity: 0;
     transform: translateY(16px);
     border-radius: 0px;
-    transition: border-radius 0.4s ease, padding 0.4s ease;
+    transition: border-radius 0.4s ease, padding 0.4s ease, background-color 0.3s ease;
+}
+
+/* Service Item Hover - subtle visual feedback */
+.service-item:hover {
+    background-color: rgba(255, 255, 255, 0.02);
 }
 
 /* The Separator Line (Pseudo-element) */
@@ -1653,7 +1768,7 @@ button:focus-visible,
     inset: 0;
     z-index: 0;
     opacity: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.65);  /* Darker for better text readability */
 }
 
 /* Service Content */
@@ -1864,14 +1979,9 @@ button:focus-visible,
     margin: 0;
 }
 
-/* Vertical Section Label (Left Side) */
+/* Vertical Section Label (Left Side) - Hidden for cleaner layout */
 .methodology-vertical-label {
-    position: absolute;
-    left: 24px;
-    top: 50%;
-    transform: translateY(-50%) rotate(-90deg);
-    z-index: 5;
-    pointer-events: none;
+    display: none;  /* Hidden - was causing floating visual issues */
 }
 
 .methodology-vertical-label span {
@@ -2499,7 +2609,7 @@ button:focus-visible,
     transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-/* Photon Additive Mixing Background */
+/* Gentle gradient background - reduced effect */
 .quote-card::before {
     content: '';
     position: absolute;
@@ -2508,12 +2618,11 @@ button:focus-visible,
     right: 0;
     bottom: 0;
     background:
-        radial-gradient(circle at 20% 30%, rgba(23, 247, 247, 0.4) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(255, 42, 109, 0.4) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(23, 247, 247, 0.3) 0%, transparent 60%);
+        radial-gradient(circle at 30% 40%, rgba(23, 247, 247, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 70% 60%, rgba(23, 247, 247, 0.06) 0%, transparent 50%);
     mix-blend-mode: screen;
-    filter: blur(40px);
-    opacity: 0.8;
+    filter: blur(20px);
+    opacity: 0.6;
     z-index: 1;
     pointer-events: none;
 }
@@ -2757,6 +2866,16 @@ button:focus-visible,
     font-size: 18px;
 }
 
+/* Response Promise - Human touch */
+.response-promise {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: var(--foreground);
+    opacity: 0.5;
+    margin-top: 0.75rem;
+    letter-spacing: 0.02em;
+}
+
 /* Social Pills */
 .ml-footer-social {
     display: flex;
@@ -2810,6 +2929,15 @@ button:focus-visible,
     margin: 0 0 16px 0;
 }
 
+/* Founders bio line */
+.founders-bio {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.5);
+    margin: 0 0 12px 0;
+    letter-spacing: 0.02em;
+}
+
 .ml-founders-list {
     display: flex;
     flex-direction: column;
@@ -2830,8 +2958,8 @@ button:focus-visible,
 }
 
 .ml-founder-avatar {
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     overflow: hidden;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -3185,6 +3313,69 @@ button:focus-visible,
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+    }
+}
+
+/* ========================================
+   STUDIO NOTE SECTION - Human Artifact
+======================================== */
+.studio-note-section {
+    background: var(--background);
+    padding: 3rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.studio-note-container {
+    max-width: 480px;
+    padding: 1.5rem 2rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    text-align: center;
+}
+
+.note-label {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--primary);
+    opacity: 0.8;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.note-content {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--foreground);
+    opacity: 0.85;
+    margin: 0 0 0.75rem 0;
+}
+
+.note-signature {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    color: var(--foreground);
+    opacity: 0.5;
+}
+
+@media (max-width: 767px) {
+    .studio-note-section {
+        padding: 2rem 1.5rem;
+    }
+
+    .studio-note-container {
+        max-width: 100%;
+        padding: 1.25rem 1.5rem;
+    }
+
+    .note-content {
+        font-size: 1rem;
     }
 }
 
