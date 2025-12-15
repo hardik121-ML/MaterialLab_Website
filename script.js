@@ -542,9 +542,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initialize star backgrounds for different sections
-    initSectionStars('stars-services', { starCount: 60, maxSize: 1.2 });
-    initSectionStars('stars-methodology', { starCount: 100, maxSize: 1.5 });
-    initSectionStars('stars-manifesto', { starCount: 50, maxSize: 1.0 });
+    initSectionStars('stars-services', { starCount: 120, maxSize: 1.5 });
+    initSectionStars('stars-methodology', { starCount: 150, maxSize: 1.5 });
+    initSectionStars('stars-manifesto', { starCount: 100, maxSize: 1.2 });
+    initSectionStars('stars-about-client', { starCount: 80, maxSize: 1.2 });
+    initSectionStars('stars-about-stacked', { starCount: 100, maxSize: 1.3 });
+    initSectionStars('stars-falling-text', { starCount: 60, maxSize: 1.0 });
 
     /* ========================================
        SVG ELLIPSE MASK TRANSITION (CRITICAL)
@@ -1451,11 +1454,11 @@ document.addEventListener('DOMContentLoaded', () => {
             rotate: 0,        // Remove rotation
             opacity: 1,       // Become visible
             ease: 'back.inOut(4)',  // Bounce effect
-            stagger: 0.1,     // Each character falls with 0.1s delay (cascading effect)
+            stagger: 0.02,    // Very fast stagger so all 26 characters complete quickly
             scrollTrigger: {
                 trigger: section,
-                start: 'top 80%',   // Animation starts when section is 80% down viewport
-                end: 'bottom 20%',  // Animation ends when 20% from bottom
+                start: 'top 100%',  // Start as soon as section enters viewport
+                end: 'center center', // End when section center hits viewport center
                 scrub: true,        // Linked directly to scroll (smooth)
                 markers: false      // Set to true for debugging
             }
@@ -1826,22 +1829,22 @@ document.addEventListener('DOMContentLoaded', () => {
     var OBJECT_SCALE = 108; // Reduced by 20% from 135
     var N_AIR = 1.0;
 
-    // Spectrum colors for light refraction
+    // Spectrum colors for light refraction - wider n spread for more angular separation
     var SPECTRUM = [
-        { name: 'red',    color: '#ff2a6d', opacity: 0.8, n: 1.42 },
-        { name: 'orange', color: '#ff9f0a', opacity: 0.8, n: 1.52 },
-        { name: 'yellow', color: '#ffd60a', opacity: 0.8, n: 1.62 },
-        { name: 'green',  color: '#05f7a5', opacity: 0.8, n: 1.72 },
-        { name: 'blue',   color: '#0a84ff', opacity: 0.9, n: 1.82 },
-        { name: 'indigo', color: '#5e5ce6', opacity: 0.9, n: 1.92 },
-        { name: 'violet', color: '#bf5af2', opacity: 1.0, n: 2.02 }
+        { name: 'red',    color: '#ff2a6d', opacity: 0.8, n: 1.30 },
+        { name: 'orange', color: '#ff9f0a', opacity: 0.8, n: 1.45 },
+        { name: 'yellow', color: '#ffd60a', opacity: 0.8, n: 1.60 },
+        { name: 'green',  color: '#05f7a5', opacity: 0.8, n: 1.75 },
+        { name: 'blue',   color: '#0a84ff', opacity: 0.9, n: 1.90 },
+        { name: 'indigo', color: '#5e5ce6', opacity: 0.9, n: 2.10 },
+        { name: 'violet', color: '#bf5af2', opacity: 1.0, n: 2.30 }
     ];
 
     // --- Quality Tier System ---
     var QualityTier = {
-        HIGH:    { maxBounces: 4, starCount: 250, dustCount: 100, subdivisions: 2, smokeEnabled: true },  // MlBrandKit reference: 250 stars
-        MEDIUM:  { maxBounces: 3, starCount: 100, dustCount: 50,  subdivisions: 1, smokeEnabled: true },
-        LOW:     { maxBounces: 2, starCount: 50,  dustCount: 25,  subdivisions: 1, smokeEnabled: false },
+        HIGH:    { maxBounces: 2, starCount: 250, dustCount: 100, subdivisions: 2, smokeEnabled: true },  // Reduced bounces for softer effect
+        MEDIUM:  { maxBounces: 2, starCount: 100, dustCount: 50,  subdivisions: 1, smokeEnabled: true },
+        LOW:     { maxBounces: 1, starCount: 50,  dustCount: 25,  subdivisions: 1, smokeEnabled: false },
         MINIMAL: { maxBounces: 1, starCount: 25,  dustCount: 0,   subdivisions: 0, smokeEnabled: false }
     };
 
@@ -2411,85 +2414,93 @@ document.addEventListener('DOMContentLoaded', () => {
         return 'rgba(0,0,0,0)';
     }
 
-    // Multi-layer volumetric beam rendering with proper edge fading
+    // Soft beam using overlapping radial gradients - diffuses in ALL directions
     function drawVolumetricBeam(ctx, start, end, color, widthPx, alpha, hasSmoke) {
         var dx = end.x - start.x;
         var dy = end.y - start.y;
         var length = Math.sqrt(dx * dx + dy * dy);
-        var angle = Math.atan2(dy, dx);
-        var edgeColor = getEdgeColor(color);
+
+        if (length < 1) return;
+
+        // Number of circles to draw along the beam
+        var steps = Math.max(8, Math.floor(length / 40));
 
         ctx.save();
-        ctx.translate(start.x, start.y);
-        ctx.rotate(angle);
-        ctx.globalCompositeOperation = 'lighter';
+        ctx.globalCompositeOperation = 'screen';
 
-        // Outer soft glow layer (wider, more diffuse) - HIGH/MEDIUM only
-        if (currentTierName === 'HIGH' || currentTierName === 'MEDIUM') {
-            var outerWidth = widthPx * 2.5;
-            var outerGrad = ctx.createLinearGradient(0, -outerWidth / 2, 0, outerWidth / 2);
-            outerGrad.addColorStop(0, 'rgba(0,0,0,0)');
-            outerGrad.addColorStop(0.2, edgeColor);
-            outerGrad.addColorStop(0.5, color);
-            outerGrad.addColorStop(0.8, edgeColor);
-            outerGrad.addColorStop(1, 'rgba(0,0,0,0)');
-            ctx.fillStyle = outerGrad;
-            ctx.globalAlpha = alpha * 0.15;
-            ctx.fillRect(0, -outerWidth / 2, length, outerWidth);
-        }
+        // Draw overlapping radial gradients along the path
+        for (var i = 0; i <= steps; i++) {
+            var t = i / steps;
+            var x = start.x + dx * t;
+            var y = start.y + dy * t;
 
-        // Main diffuse beam layer
-        var mainGrad = ctx.createLinearGradient(0, -widthPx / 2, 0, widthPx / 2);
-        mainGrad.addColorStop(0, edgeColor);
-        mainGrad.addColorStop(0.15, edgeColor);
-        mainGrad.addColorStop(0.5, color);
-        mainGrad.addColorStop(0.85, edgeColor);
-        mainGrad.addColorStop(1, edgeColor);
-        ctx.fillStyle = mainGrad;
-        ctx.globalAlpha = alpha;
-        ctx.fillRect(0, -widthPx / 2, length, widthPx);
+            // Width grows along the beam (starts at widthPx, grows to 1.5x)
+            var currentWidth = widthPx * (1 + t * 0.5);
 
-        // Hot center core - HIGH only
-        if (currentTierName === 'HIGH') {
-            var coreWidth = widthPx * 0.3;
-            var coreGrad = ctx.createLinearGradient(0, -coreWidth / 2, 0, coreWidth / 2);
-            coreGrad.addColorStop(0, edgeColor);
-            coreGrad.addColorStop(0.3, color);
-            coreGrad.addColorStop(0.5, '#ffffff');
-            coreGrad.addColorStop(0.7, color);
-            coreGrad.addColorStop(1, edgeColor);
-            ctx.fillStyle = coreGrad;
-            ctx.globalAlpha = alpha * 0.4;
-            ctx.fillRect(0, -coreWidth / 2, length, coreWidth);
-        }
+            // Create radial gradient - soft circular falloff
+            var gradient = ctx.createRadialGradient(x, y, 0, x, y, currentWidth);
+            gradient.addColorStop(0, color);
+            gradient.addColorStop(0.2, color);
+            gradient.addColorStop(0.6, getEdgeColor(color));
+            gradient.addColorStop(1, 'rgba(0,0,0,0)');
 
-        // Smoke texture overlay
-        if (hasSmoke && noisePattern && currentQuality.smokeEnabled) {
-            ctx.globalAlpha = alpha * 0.65;
-            ctx.globalCompositeOperation = 'overlay';
-            var pattern = ctx.createPattern(noisePattern, 'repeat');
-            if (pattern) {
-                var offset = (time * 20) % 256;
-                ctx.translate(-offset, 0);
-                ctx.fillStyle = pattern;
-                ctx.fillRect(offset, -widthPx / 2, length, widthPx);
-            }
+            ctx.globalAlpha = alpha * 0.12;  // Low alpha, overlapping creates smooth blend
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(x, y, currentWidth, 0, Math.PI * 2);
+            ctx.fill();
         }
 
         ctx.restore();
     }
 
     function drawFlare(ctx, pos, color, scale, isExit) {
-        var rad = (isExit ? 60 : 20) * scale * dpr;
+        var rad = (isExit ? 40 : 15) * scale * dpr;  // Smaller flares
         var g = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, rad);
-        g.addColorStop(0, isExit ? '#ffffff' : 'rgba(255,255,255,0.9)');
-        g.addColorStop(isExit ? 0.2 : 0.4, color);
+        // Softer gradient - no harsh white center
+        g.addColorStop(0, color);
+        g.addColorStop(0.3, color);
+        g.addColorStop(0.7, getEdgeColor(color));
         g.addColorStop(1, 'rgba(0,0,0,0)');
         ctx.fillStyle = g;
-        ctx.globalCompositeOperation = 'lighter';
+        ctx.globalCompositeOperation = 'screen';  // Screen instead of additive
+        ctx.globalAlpha = 0.5;  // Lower opacity
         ctx.beginPath();
         ctx.arc(pos.x, pos.y, rad, 0, Math.PI * 2);
         ctx.fill();
+        ctx.globalAlpha = 1;
+    }
+
+    // Soft foggy rainbow overlay using conic gradient
+    function drawRainbowFog(ctx, center, direction, alpha) {
+        var fogDistance = 300;
+        var fogCenter = {
+            x: center.x + direction.x * fogDistance,
+            y: center.y + direction.y * fogDistance
+        };
+        var baseAngle = Math.atan2(direction.y, direction.x);
+        var radius = 600;
+
+        // Create soft conic gradient with full rainbow
+        var gradient = ctx.createConicGradient(baseAngle - 0.4, fogCenter.x, fogCenter.y);
+        gradient.addColorStop(0, 'rgba(0,0,0,0)');
+        gradient.addColorStop(0.08, 'rgba(255, 42, 109, ' + (alpha * 0.15) + ')');   // Red
+        gradient.addColorStop(0.16, 'rgba(255, 159, 10, ' + (alpha * 0.15) + ')');   // Orange
+        gradient.addColorStop(0.24, 'rgba(255, 214, 10, ' + (alpha * 0.15) + ')');   // Yellow
+        gradient.addColorStop(0.32, 'rgba(5, 247, 165, ' + (alpha * 0.15) + ')');    // Green
+        gradient.addColorStop(0.40, 'rgba(10, 132, 255, ' + (alpha * 0.15) + ')');   // Blue
+        gradient.addColorStop(0.48, 'rgba(94, 92, 230, ' + (alpha * 0.12) + ')');    // Indigo
+        gradient.addColorStop(0.56, 'rgba(191, 90, 242, ' + (alpha * 0.12) + ')');   // Violet
+        gradient.addColorStop(0.65, 'rgba(0,0,0,0)');
+        gradient.addColorStop(1, 'rgba(0,0,0,0)');
+
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(fogCenter.x, fogCenter.y, radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
     }
 
     // --- Main Render Function ---
@@ -2672,7 +2683,10 @@ document.addEventListener('DOMContentLoaded', () => {
             var modAlpha = currentAlpha * pulse;
             activeBeams.push({ p1: startPoint, p2: target.point });
 
-            drawVolumetricBeam(ctx, startPoint, target.point, band.color, 70 * dpr, modAlpha * 0.5, true);  // Wider, softer beams
+            // Distance-based beam width - starts wide, grows with distance for aurora effect
+            var dist = len(sub(target.point, startPoint));
+            var spreadWidth = (60 + dist * 0.15) * dpr;  // Start wide, grow slower
+            drawVolumetricBeam(ctx, startPoint, target.point, band.color, spreadWidth, modAlpha * 0.2, true);
 
             if (type === 'wall') {
                 drawFlare(ctx, target.point, band.color, 0.8 * modAlpha, false);
@@ -2689,14 +2703,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 var exitHit = intersectRayHull(add(hullHit.point, mul(dIn, 0.1)), dIn, hull, hullHit.index);
                 if (!exitHit) return;
 
-                // Internal beam
-                ctx.beginPath();
-                ctx.moveTo(hullHit.point.x, hullHit.point.y);
-                ctx.lineTo(exitHit.point.x, exitHit.point.y);
-                ctx.strokeStyle = band.color;
-                ctx.lineWidth = 2 * dpr;
-                ctx.globalAlpha = currentAlpha * 0.8 * pulse;
-                ctx.stroke();
+                // Internal beam - soft radial approach matching external beams
+                drawVolumetricBeam(ctx, hullHit.point, exitHit.point, band.color, 25 * dpr, currentAlpha * 0.4 * pulse, false);
 
                 var dOut = refract2D(dIn, exitHit.normal, band.n, N_AIR);
                 if (!dOut) return;
@@ -2717,7 +2725,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Main white beam
         if (globalAlpha > 0.001) {
-            drawVolumetricBeam(ctx, mouse, beamEnd, '#ffffff', 15 * dpr, 0.7, true);  // Wider, softer main beam
+            drawVolumetricBeam(ctx, mouse, beamEnd, '#ffffff', 8 * dpr, 0.4, true);  // Thinner, subtler main beam
         }
 
         if (entryHit) {
@@ -2733,20 +2741,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 var exitHit = intersectRayHull(add(entryHit.point, mul(dIn, 0.1)), dIn, hull, entryHit.index);
                 if (!exitHit) continue;
 
-                // Internal beam
-                ctx.beginPath();
-                ctx.moveTo(entryHit.point.x, entryHit.point.y);
-                ctx.lineTo(exitHit.point.x, exitHit.point.y);
-                ctx.strokeStyle = band.color;
-                ctx.lineWidth = 2 * dpr;
-                ctx.globalAlpha = band.opacity * 0.6 * globalAlpha * pulse;
-                ctx.stroke();
+                // Internal beam - soft radial approach matching external beams
+                drawVolumetricBeam(ctx, entryHit.point, exitHit.point, band.color, 25 * dpr, band.opacity * 0.3 * globalAlpha * pulse, false);
 
                 drawFlare(ctx, exitHit.point, band.color, 1.0, true);
 
                 var dOut = refract2D(dIn, exitHit.normal, band.n, N_AIR);
                 if (dOut) {
                     traceSpectralRay(exitHit.point, dOut, band, currentQuality.maxBounces, globalAlpha);
+                }
+            }
+
+            // Add soft rainbow fog overlay
+            var midBand = SPECTRUM[3]; // green - middle of spectrum
+            var dInMid = refract2D(rayDir, entryHit.normal, N_AIR, midBand.n);
+            if (dInMid) {
+                var exitHitMid = intersectRayHull(add(entryHit.point, mul(dInMid, 0.1)), dInMid, hull, entryHit.index);
+                if (exitHitMid) {
+                    var dOutMid = refract2D(dInMid, exitHitMid.normal, midBand.n, N_AIR);
+                    if (dOutMid) {
+                        drawRainbowFog(ctx, exitHitMid.point, dOutMid, globalAlpha);
+                    }
                 }
             }
         }
