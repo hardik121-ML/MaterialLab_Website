@@ -64,9 +64,9 @@
     --spacing-gap-tablet: 24px;
 
     /* ===== Section Padding (Consistent vertical rhythm) ===== */
-    --section-padding-desktop: 120px;
-    --section-padding-tablet: 80px;
-    --section-padding-mobile: 56px;
+    --section-padding-desktop: 80px;   /* Reduced from 120px */
+    --section-padding-tablet: 64px;    /* Reduced from 80px */
+    --section-padding-mobile: 48px;    /* Reduced from 56px */
 
     /* ===== Typography (Material Lab Brand Kit) ===== */
     --font-serif: 'Merriweather', Georgia, serif;      /* Headings */
@@ -683,67 +683,6 @@ button:focus-visible,
 }
 
 /* ========================================
-   PRIMARY PILL BUTTON (Standard)
-======================================== */
-.btn-primary-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 28px;
-    background: var(--primary);
-    color: var(--primary-foreground);
-    border: none;
-    border-radius: var(--radius-pill);
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: transform 200ms ease, opacity 200ms ease;
-}
-
-.btn-primary-pill:hover {
-    transform: scale(1.02);
-    opacity: 0.95;
-}
-
-.btn-primary-pill:active {
-    transform: scale(0.98);
-}
-
-/* ========================================
-   TEXT LINK (Simple Underline)
-======================================== */
-.text-link {
-    color: var(--foreground);
-    text-decoration: none;
-    position: relative;
-    display: inline-block;
-}
-
-.text-link::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: currentColor;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 300ms ease;
-}
-
-.text-link:hover::after {
-    transform: scaleX(1);
-    transform-origin: left;
-}
-
-/* Text link on dark background (footer with light bg) */
-.text-link--dark {
-    color: var(--background);
-}
-
-/* ========================================
    MAGNETIC BADGE CTA
 ======================================== */
 .magnetic-badge {
@@ -1229,56 +1168,25 @@ button:focus-visible,
     will-change: opacity, transform;
 }
 
-/* AI + Human messaging line */
+/* AI + Human messaging section */
+.ai-human-section {
+    background: #0e0e0e;  /* Elevated for visual break */
+    padding: 3rem 0;  /* Reduced from 4rem */
+    text-align: center;
+}
+
 .ai-human-line {
     font-family: var(--font-sans);
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-style: italic;
     color: var(--foreground);
     opacity: 0.6;
-    margin-bottom: var(--spacing-md);
+    margin: 0;
     letter-spacing: 0.02em;
 }
 
 .heading-line {
     display: block;
-}
-
-/* Hand-drawn underline accent - human warmth */
-.hand-drawn-underline {
-    position: relative;
-    display: inline-block;
-}
-
-.hand-drawn-underline::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -0.1em;
-    height: 0.15em;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'%3E%3Cpath d='M0,5 Q25,2 50,5 T100,5 T150,5 T200,5' stroke='%23f5f5f0' stroke-width='2' fill='none' opacity='0.4'/%3E%3C/svg%3E");
-    background-repeat: repeat-x;
-    background-size: 100px 100%;
-    opacity: 0.5;
-}
-
-/* Inline Image (Replacing "O") */
-.inline-image-wrapper {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    margin: 0 12px;
-    position: relative;
-}
-
-.inset-image {
-    width: clamp(60px, 8vw, 120px);
-    height: clamp(60px, 8vw, 120px);
-    border-radius: var(--radius-md);
-    display: inline-block;
-    background: transparent;
 }
 
 /* ===== Identity Primitives (Inline Canvases) ===== */
@@ -1295,42 +1203,6 @@ button:focus-visible,
     /* Size set dynamically by JavaScript */
 }
 
-/* Subheading */
-.hero-subheading {
-    font-family: var(--font-sans);
-    font-size: var(--type-body-lg-size);
-    font-weight: var(--type-body-lg-weight);
-    line-height: var(--type-body-lg-lh);
-    letter-spacing: var(--type-body-lg-tracking);
-    color: var(--color-text-muted);
-    margin-bottom: var(--spacing-xl);
-    opacity: 0;
-    transform: translateY(20px);
-    will-change: opacity, transform;
-}
-
-/* Brand Logos */
-.brand-logos {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-lg);
-    flex-wrap: wrap;
-    opacity: 0;
-    transform: translateY(20px);
-    will-change: opacity, transform;
-}
-
-.logo-item {
-    opacity: 0.8;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.logo-item:hover {
-    opacity: 1;
-    transform: scale(1.1);
-}
-
 /* Hero Footer (Bottom Info) - Centered Layout */
 .hero-footer {
     position: absolute;
@@ -1345,49 +1217,6 @@ button:focus-visible,
     z-index: 2;
     color: white;
     text-align: center;
-}
-
-.footer-left,
-.footer-right {
-    max-width: 600px;
-    font-family: var(--font-sans);
-    font-size: var(--type-body-lg-size);
-    font-weight: var(--type-body-lg-weight);
-    line-height: var(--type-body-lg-lh);
-    letter-spacing: var(--type-body-lg-tracking);
-    opacity: 0.8;
-    text-align: center;
-}
-
-.footer-right {
-    text-align: center;
-}
-
-/* Studio Note - Human warmth element */
-.studio-note {
-    margin-top: 2rem;
-    text-align: center;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.studio-note p {
-    font-family: var(--font-serif);
-    font-size: 1.1rem;
-    font-style: italic;
-    color: var(--foreground);
-    opacity: 0.7;
-    line-height: 1.6;
-    margin-bottom: 0.5rem;
-}
-
-.studio-signature {
-    font-family: var(--font-sans);
-    font-size: 0.85rem;
-    color: var(--foreground);
-    opacity: 0.5;
-    letter-spacing: 0.02em;
 }
 
 /* Hero CTA Group */
@@ -1608,6 +1437,7 @@ button:focus-visible,
     padding: var(--section-padding-desktop) 0;
     background: var(--background);  /* Consistent Void Black #050505 */
     overflow: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);  /* Visible texture */
 }
 
 /* Uses grid-20 from global grid system */
@@ -1933,14 +1763,19 @@ button:focus-visible,
 ======================================== */
 .methodology-section {
     position: relative;
-    background: var(--background);
+    background: linear-gradient(180deg,
+        rgba(23, 247, 247, 0.05) 0%,
+        #0c0c0c 30%,
+        var(--background) 100%
+    );  /* Cyan wash at top transitioning to slightly elevated black */
     width: 100%;
     padding: var(--section-padding-desktop) 0 0 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);  /* Visible texture */
 }
 
 /* Section Header - Uses grid-20 */
 .methodology-header-grid {
-    padding-bottom: 96px;
+    padding-bottom: 64px;  /* Reduced from 96px */
 }
 
 .methodology-header-content {
@@ -2005,8 +1840,8 @@ button:focus-visible,
 .methodology-card {
     position: sticky;
     top: 0;
-    height: 85vh;
-    min-height: 600px;
+    height: 85vh;  /* Restored for smooth scroll animation */
+    min-height: 600px;  /* Restored for smooth scroll animation */
     display: flex;
     align-items: center;
     padding: 0;
@@ -2458,7 +2293,7 @@ button:focus-visible,
 ======================================== */
 .manifesto-section {
     position: relative;
-    background: var(--background);
+    background: #111111;  /* Elevated from void black for visual rhythm */
     color: var(--foreground);
     padding: var(--section-padding-desktop) 0;
     min-height: auto;
@@ -2709,8 +2544,8 @@ button:focus-visible,
     align-items: center;
     justify-content: center;
     overflow: visible;
-    padding: 160px var(--spacing-container) 200px;  /* Extra bottom padding for animation */
-    min-height: 50vh;
+    padding: 80px var(--spacing-container) 100px;  /* Reduced from 160px/200px */
+    min-height: 35vh;  /* Reduced from 50vh */
 }
 
 .falling-text-container {
@@ -3317,75 +3152,12 @@ button:focus-visible,
 }
 
 /* ========================================
-   STUDIO NOTE SECTION - Human Artifact
-======================================== */
-.studio-note-section {
-    background: var(--background);
-    padding: 3rem 0;
-    display: flex;
-    justify-content: center;
-}
-
-.studio-note-container {
-    max-width: 480px;
-    padding: 1.5rem 2rem;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
-    text-align: center;
-}
-
-.note-label {
-    font-family: var(--font-sans);
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--primary);
-    opacity: 0.8;
-    display: block;
-    margin-bottom: 0.75rem;
-}
-
-.note-content {
-    font-family: var(--font-serif);
-    font-size: 1.1rem;
-    font-style: italic;
-    line-height: 1.6;
-    color: var(--foreground);
-    opacity: 0.85;
-    margin: 0 0 0.75rem 0;
-}
-
-.note-signature {
-    font-family: var(--font-sans);
-    font-size: 0.8rem;
-    color: var(--foreground);
-    opacity: 0.5;
-}
-
-@media (max-width: 767px) {
-    .studio-note-section {
-        padding: 2rem 1.5rem;
-    }
-
-    .studio-note-container {
-        max-width: 100%;
-        padding: 1.25rem 1.5rem;
-    }
-
-    .note-content {
-        font-size: 1rem;
-    }
-}
-
-/* ========================================
    ABOUT STACKED SECTION (20-Column Grid)
 ======================================== */
 .about-stacked-section {
     position: relative;
-    background: var(--background);
-    padding: 64px 0 96px;
+    background: #111111;  /* Elevated from void black for visual rhythm */
+    padding: 48px 0 64px;  /* Reduced from 64px 0 96px */
     overflow: clip;
 }
 
@@ -3633,5 +3405,69 @@ button:focus-visible,
     .methodology-card,
     .about-card {
         will-change: auto;
+    }
+
+    /* Simplify service cards */
+    .service-card::before {
+        display: none;
+    }
+}
+
+/* ========================================
+   REDUCED MOTION PREFERENCES
+   (Accessibility + Battery Saving)
+======================================== */
+@media (prefers-reduced-motion: reduce) {
+    /* Disable all backdrop filters */
+    .main-header,
+    .main-header.scrolled,
+    .mega-dropdown,
+    .awards-badge,
+    .quote-card,
+    .modal-content {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    /* Disable all transitions and animations */
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    /* Hide purely decorative canvases */
+    .section-stars,
+    #prism-canvas {
+        opacity: 0.3 !important;
+    }
+
+    /* Remove will-change (causes layer promotion) */
+    .hero-heading,
+    .hero-subheading,
+    .awards-badge,
+    .hero-footer,
+    .methodology-card,
+    .about-card {
+        will-change: auto !important;
+    }
+}
+
+/* ========================================
+   LOW POWER MODE DETECTION
+   (Safari-specific)
+======================================== */
+@media (prefers-reduced-motion: reduce), (update: slow) {
+    /* Further reduce visual complexity */
+    .hero-background::after {
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    /* Disable complex gradients */
+    .service-card-gradient {
+        opacity: 0;
     }
 }

@@ -118,142 +118,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ========================================
-       KINETIC RHOMBIC GRID (Hero Inline)
-    ======================================== */
-
-    const rhombicCanvas = document.getElementById('rhombic-grid');
-
-    if (rhombicCanvas) {
-        const ctx = rhombicCanvas.getContext('2d', { alpha: true });
-
-        // Golden ratio
-        const phi = (1 + Math.sqrt(5)) / 2;
-
-        // Geometry helpers
-        const normalize = (v) => {
-            const m = Math.sqrt(v[0] ** 2 + v[1] ** 2 + v[2] ** 2);
-            return [v[0] / m, v[1] / m, v[2] / m];
-        };
-
-        const distance = (v1, v2) => {
-            return Math.sqrt(
-                (v1[0] - v2[0]) ** 2 +
-                (v1[1] - v2[1]) ** 2 +
-                (v1[2] - v2[2]) ** 2
-            );
-        };
-
-        // Generate Icosahedron vertices
-        const icoVerts = [
-            [0, 1, phi], [0, 1, -phi], [0, -1, phi], [0, -1, -phi],
-            [1, phi, 0], [1, -phi, 0], [-1, phi, 0], [-1, -phi, 0],
-            [phi, 0, 1], [phi, 0, -1], [-phi, 0, 1], [-phi, 0, -1]
-        ].map(normalize);
-
-        // Generate Dodecahedron vertices
-        let dodVerts = [];
-        for (let x of [-1, 1]) for (let y of [-1, 1]) for (let z of [-1, 1]) dodVerts.push([x, y, z]);
-        for (let i of [-1, 1]) for (let j of [-1, 1]) dodVerts.push([0, i * phi, j / phi]);
-        for (let i of [-1, 1]) for (let j of [-1, 1]) dodVerts.push([i / phi, 0, j * phi]);
-        for (let i of [-1, 1]) for (let j of [-1, 1]) dodVerts.push([i * phi, j / phi, 0]);
-        dodVerts = dodVerts.map(normalize);
-
-        // Combine for Rhombic Triacontahedron
-        const vertices = [...icoVerts, ...dodVerts];
-
-        // Generate edges
-        const edges = [];
-        for (let i = 0; i < vertices.length; i++) {
-            for (let j = i + 1; j < vertices.length; j++) {
-                const d = distance(vertices[i], vertices[j]);
-                if (d > 0.5 && d < 0.7) {
-                    edges.push([i, j]);
-                }
-            }
-        }
-
-        // Animation state
-        let baseAngleX = 0;
-        let baseAngleY = 0;
-        let currentMouseX = 0;
-        let currentMouseY = 0;
-        let rhombicMouseX = 0;
-        let rhombicMouseY = 0;
-
-        // Final values
-        const lineWidth = 0.8;
-        const shapeScale = 1.0;
-
-        // Track mouse for rhombic grid
-        window.addEventListener('mousemove', (e) => {
-            rhombicMouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            rhombicMouseY = (e.clientY / window.innerHeight) * 2 - 1;
-        });
-
-        // Render function
-        const renderRhombic = () => {
-            const size = rhombicCanvas.offsetWidth || controlSize;
-            const dpr = window.devicePixelRatio || 1;
-
-            rhombicCanvas.width = size * dpr;
-            rhombicCanvas.height = size * dpr;
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
-            ctx.scale(dpr, dpr);
-
-            ctx.clearRect(0, 0, size, size);
-
-            // Update rotation
-            baseAngleX += 0.002;
-            baseAngleY += 0.003;
-            currentMouseX += (rhombicMouseY * 1.5 - currentMouseX) * 0.05;
-            currentMouseY += (rhombicMouseX * 1.5 - currentMouseY) * 0.05;
-
-            const angleX = baseAngleX + currentMouseX;
-            const angleY = baseAngleY + currentMouseY;
-
-            const cx = size / 2;
-            const cy = size / 2;
-            const scale = (size / 2) * shapeScale;
-
-            const sinY = Math.sin(angleY);
-            const cosY = Math.cos(angleY);
-            const sinX = Math.sin(angleX);
-            const cosX = Math.cos(angleX);
-
-            // Project 3D to 2D
-            const projected = vertices.map(v => {
-                const x = v[0] * cosY - v[2] * sinY;
-                const z = v[0] * sinY + v[2] * cosY;
-                const y = v[1];
-                const yNew = y * cosX - z * sinX;
-                return { x: cx + x * scale, y: cy + yNew * scale };
-            });
-
-            // Draw edges
-            ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = lineWidth;
-            ctx.lineCap = 'round';
-            ctx.beginPath();
-            for (const [v1, v2] of edges) {
-                const p1 = projected[v1];
-                const p2 = projected[v2];
-                ctx.moveTo(p1.x, p1.y);
-                ctx.lineTo(p2.x, p2.y);
-            }
-            ctx.stroke();
-
-            requestAnimationFrame(renderRhombic);
-        };
-
-        renderRhombic();
-        console.log('✓ Kinetic Rhombic Grid Initialized');
-    }
-
-    /* ========================================
        IDENTITY PRIMITIVES - Geometry Generators
     ======================================== */
 
-    // Shared helpers (note: phi already defined above for rhombic grid)
+    // Shared helpers
     const primNormalize = (v) => {
         const m = Math.sqrt(v[0] ** 2 + v[1] ** 2 + v[2] ** 2);
         return [v[0] / m, v[1] / m, v[2] / m];
@@ -365,6 +233,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentMouseX = 0, currentMouseY = 0;
         let primMouseX = 0, primMouseY = 0;
 
+        // Performance: Visibility state
+        let isVisible = false;
+        let isPaused = true;
+        let animationId = null;
+
         window.addEventListener('mousemove', (e) => {
             primMouseX = (e.clientX / window.innerWidth) * 2 - 1;
             primMouseY = (e.clientY / window.innerHeight) * 2 - 1;
@@ -381,13 +254,29 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update container and canvas size to match parent font-size (2.5x for prominence)
         const updateSize = () => {
             const fontSize = getParentFontSize() * 2.5;
-            // Container (canvas wrapper) = 2.5x font size
             canvas.style.width = fontSize + 'px';
             canvas.style.height = fontSize + 'px';
-            // Also set the container element size if canvas has a wrapper
             if (canvas.parentElement && canvas.parentElement.classList.contains('primitive-container')) {
                 canvas.parentElement.style.width = fontSize + 'px';
                 canvas.parentElement.style.height = fontSize + 'px';
+            }
+        };
+
+        // Pause animation
+        const pause = () => {
+            isPaused = true;
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+        };
+
+        // Resume animation
+        const resume = () => {
+            if (!isVisible || document.hidden) return;
+            if (isPaused) {
+                isPaused = false;
+                render();
             }
         };
 
@@ -396,6 +285,8 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', updateSize);
 
         const render = () => {
+            if (isPaused) return;
+
             const size = canvas.offsetWidth || 48;
             const dpr = window.devicePixelRatio || 1;
 
@@ -436,11 +327,33 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             ctx.stroke();
 
-            requestAnimationFrame(render);
+            animationId = requestAnimationFrame(render);
         };
 
-        render();
-        console.log(`✓ Primitive ${canvasId} Initialized (size: ${getParentFontSize()}px)`);
+        // Performance: Pause when tab is hidden
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                pause();
+            } else if (isVisible) {
+                resume();
+            }
+        });
+
+        // Performance: Only animate when visible (IntersectionObserver)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    isVisible = true;
+                    resume();
+                } else {
+                    isVisible = false;
+                    pause();
+                }
+            });
+        }, { threshold: 0.1 });
+        observer.observe(canvas);
+
+        console.log(`✓ Primitive ${canvasId} Initialized (visibility-aware)`);
     }
 
     /* ========================================
@@ -467,13 +380,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!canvas) return;
 
         const ctx = canvas.getContext('2d', { alpha: true });
-        const starCount = options.starCount || 80;
+
+        // Performance: Detect mobile/low-power mode
+        const isMobile = window.innerWidth < 768 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        const isLowPower = isMobile || navigator.hardwareConcurrency <= 4;
+
+        // Reduce star counts on mobile (roughly halved)
+        const baseStarCount = options.starCount || 80;
+        const starCount = isLowPower ? Math.floor(baseStarCount * 0.4) : baseStarCount;
         const maxSize = options.maxSize || 1.5;
         const twinkleSpeed = options.twinkleSpeed || 0.02;
 
         let stars = [];
         let animationId = null;
         let time = 0;
+        let isVisible = false;
+        let isPaused = true;
 
         // Generate stars
         function generateStars() {
@@ -506,8 +428,28 @@ document.addEventListener('DOMContentLoaded', () => {
             generateStars();
         }
 
+        // Pause animation
+        function pause() {
+            isPaused = true;
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+        }
+
+        // Resume animation
+        function resume() {
+            if (!isVisible || document.hidden) return;
+            if (isPaused) {
+                isPaused = false;
+                render();
+            }
+        }
+
         // Render stars
         function render() {
+            if (isPaused) return;
+
             const width = canvas.width / (window.devicePixelRatio || 1);
             const height = canvas.height / (window.devicePixelRatio || 1);
 
@@ -529,7 +471,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Initialize
         handleResize();
-        render();
+
+        // Performance: Pause when tab is hidden
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                pause();
+            } else if (isVisible) {
+                resume();
+            }
+        });
+
+        // Performance: Only animate when visible (IntersectionObserver)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    isVisible = true;
+                    resume();
+                } else {
+                    isVisible = false;
+                    pause();
+                }
+            });
+        }, { threshold: 0.1 });
+        observer.observe(canvas);
 
         // Handle resize with debounce
         let resizeTimeout;
@@ -538,16 +502,19 @@ document.addEventListener('DOMContentLoaded', () => {
             resizeTimeout = setTimeout(handleResize, 150);
         });
 
-        console.log(`✓ Section Stars ${canvasId} Initialized (${starCount} stars)`);
+        console.log(`✓ Section Stars ${canvasId} Initialized (${starCount} stars, visibility-aware)`);
     }
 
     // Initialize star backgrounds for different sections
-    initSectionStars('stars-services', { starCount: 120, maxSize: 1.5 });
-    initSectionStars('stars-methodology', { starCount: 150, maxSize: 1.5 });
-    initSectionStars('stars-manifesto', { starCount: 100, maxSize: 1.2 });
-    initSectionStars('stars-about-client', { starCount: 80, maxSize: 1.2 });
-    initSectionStars('stars-about-stacked', { starCount: 100, maxSize: 1.3 });
-    initSectionStars('stars-falling-text', { starCount: 60, maxSize: 1.0 });
+    // Deferred by 2 seconds for faster initial page load
+    setTimeout(() => {
+        initSectionStars('stars-services', { starCount: 120, maxSize: 1.5 });
+        initSectionStars('stars-methodology', { starCount: 150, maxSize: 1.5 });
+        initSectionStars('stars-manifesto', { starCount: 100, maxSize: 1.2 });
+        initSectionStars('stars-about-client', { starCount: 80, maxSize: 1.2 });
+        initSectionStars('stars-about-stacked', { starCount: 100, maxSize: 1.3 });
+        initSectionStars('stars-falling-text', { starCount: 60, maxSize: 1.0 });
+    }, 2000);
 
     /* ========================================
        SVG ELLIPSE MASK TRANSITION (CRITICAL)
@@ -834,98 +801,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ========================================
-       BACKGROUND PARALLAX EFFECT
-    ======================================== */
-
-    const heroBackground = document.querySelector('.hero-bg-image');
-
-    if (heroBackground) {
-        document.addEventListener('mousemove', (e) => {
-            const mouseX = e.clientX / window.innerWidth;
-            const mouseY = e.clientY / window.innerHeight;
-
-            const moveX = (mouseX - 0.5) * 4; // 4px max movement
-            const moveY = (mouseY - 0.5) * 4;
-
-            gsap.to(heroBackground, {
-                x: moveX,
-                y: moveY,
-                duration: 1,
-                ease: "power2.out"
-            });
-        });
-    }
-
-    /* ========================================
-       CTA BUTTON MAGNETIC EFFECT
-    ======================================== */
-
-    const ctaButton = document.querySelector('.btn-cta');
-
-    if (ctaButton) {
-        const magneticStrength = 0.3;
-
-        ctaButton.addEventListener('mouseenter', () => {
-            gsap.to(ctaButton, {
-                scale: 1.05,
-                duration: 0.3,
-                ease: "back.out(1.7)"
-            });
-        });
-
-        ctaButton.addEventListener('mouseleave', () => {
-            gsap.to(ctaButton, {
-                scale: 1,
-                x: 0,
-                y: 0,
-                duration: 0.5,
-                ease: "elastic.out(1, 0.5)"
-            });
-        });
-
-        ctaButton.addEventListener('mousemove', (e) => {
-            const rect = ctaButton.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-
-            gsap.to(ctaButton, {
-                x: x * magneticStrength,
-                y: y * magneticStrength,
-                duration: 0.3,
-                ease: "power2.out"
-            });
-        });
-    }
-
-    /* ========================================
-       INLINE IMAGE HOVER ANIMATION
-    ======================================== */
-
-    const inlineImage = document.querySelector('.inline-image');
-
-    if (inlineImage) {
-        let rotationTween;
-
-        inlineImage.addEventListener('mouseenter', () => {
-            gsap.to(inlineImage, {
-                scale: 1.1,
-                rotation: 3,
-                duration: 0.4,
-                ease: "back.out(2)"
-            });
-        });
-
-        inlineImage.addEventListener('mouseleave', () => {
-            gsap.to(inlineImage, {
-                scale: 1,
-                rotation: 0,
-                duration: 0.5,
-                ease: "elastic.out(1, 0.5)"
-            });
-        });
-    }
-
-    /* ========================================
        MAGNETIC BADGE - Physics-Based Attraction
     ======================================== */
 
@@ -1053,47 +928,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (fallingTextSection) {
                 fallingTextSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
-        });
-    }
-
-    /* ========================================
-       CTA BUTTON MAGNETIC EFFECTS
-    ======================================== */
-
-    const ctaPrimary = document.querySelector('.cta-primary');
-
-    if (ctaPrimary) {
-        const magneticStrength = 0.25;
-
-        ctaPrimary.addEventListener('mouseenter', () => {
-            gsap.to(ctaPrimary, {
-                scale: 1.02,
-                duration: 0.3,
-                ease: "back.out(1.7)"
-            });
-        });
-
-        ctaPrimary.addEventListener('mouseleave', () => {
-            gsap.to(ctaPrimary, {
-                scale: 1,
-                x: 0,
-                y: 0,
-                duration: 0.5,
-                ease: "elastic.out(1, 0.5)"
-            });
-        });
-
-        ctaPrimary.addEventListener('mousemove', (e) => {
-            const rect = ctaPrimary.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-
-            gsap.to(ctaPrimary, {
-                x: x * magneticStrength,
-                y: y * magneticStrength,
-                duration: 0.3,
-                ease: "power2.out"
-            });
         });
     }
 
